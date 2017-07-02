@@ -1,0 +1,12 @@
+<!-- Innerhalb dieser tags alles schreiben, was Kommentar ist; diese werden vom Interpreter ignoriert, aber sind zur Orientierung in den Codes hilfreich. -->
+<DOCTYPE html>
+<html><!-- Beginn des Dokumentes -->
+<head>
+<meta charset='utf-8'>
+<style type='text/css'></style>
+</head><!-- Kopf des Dokumentes mit utf-8 für die Darstellung von Umlauten und dem style type für die Schriftfarben -->
+<body><!-- Hier kommt der Inhalt -->
+<h1>Basic HTML Developer-Hilfe</h1><!-- h:heading:Überschrift, Zahl=Größe (h1-h6) --> Wenn Sie dumm sind, drücken Sie die 1. <br><!-- Manueller html-Umbruch --> erstellt mit Basic HTML Developer.
+</body>
+</html><!-- Ende des Dokumentes -->
+<!-- Um Farben manuell zu ändern, kann der beigelegte Farbwertermittler benutzt werden. -->

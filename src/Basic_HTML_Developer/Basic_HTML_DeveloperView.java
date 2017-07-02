@@ -1,0 +1,2673 @@
+/*
+ * Test_HTMLEditorView.java
+ */
+package Basic_HTML_Developer;
+
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import org.jdesktop.application.Action;
+import org.jdesktop.application.FrameView;
+import org.jdesktop.application.ResourceMap;
+import org.jdesktop.application.SingleFrameApplication;
+import org.jdesktop.application.TaskMonitor;
+
+/**
+ * The application's main frame.
+ */
+public class Basic_HTML_DeveloperView extends FrameView {
+
+    public Basic_HTML_DeveloperView(SingleFrameApplication app) {
+        super(app);
+
+        initComponents();
+
+        // status bar initialization - message timeout, idle icon and busy animation, etc
+        ResourceMap resourceMap = getResourceMap();
+        int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
+        messageTimer = new Timer(messageTimeout, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                statusMessageLabel.setText("");
+            }
+        });
+        messageTimer.setRepeats(false);
+        int busyAnimationRate = resourceMap.getInteger("StatusBar.busyAnimationRate");
+        for (int i = 0; i < busyIcons.length; i++) {
+            busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
+        }
+        busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
+                statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
+            }
+        });
+        idleIcon = resourceMap.getIcon("StatusBar.idleIcon");
+        statusAnimationLabel.setIcon(idleIcon);
+        progressBar.setVisible(false);
+
+        // connecting action tasks to status bar via TaskMonitor
+        TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
+        taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                String propertyName = evt.getPropertyName();
+                if ("started".equals(propertyName)) {
+                    if (!busyIconTimer.isRunning()) {
+                        statusAnimationLabel.setIcon(busyIcons[0]);
+                        busyIconIndex = 0;
+                        busyIconTimer.start();
+                    }
+                    progressBar.setVisible(true);
+                    progressBar.setIndeterminate(true);
+                } else if ("done".equals(propertyName)) {
+                    busyIconTimer.stop();
+                    statusAnimationLabel.setIcon(idleIcon);
+                    progressBar.setVisible(false);
+                    progressBar.setValue(0);
+                } else if ("message".equals(propertyName)) {
+                    String text = (String) (evt.getNewValue());
+                    statusMessageLabel.setText((text == null) ? "" : text);
+                    messageTimer.restart();
+                } else if ("progress".equals(propertyName)) {
+                    int value = (Integer) (evt.getNewValue());
+                    progressBar.setVisible(true);
+                    progressBar.setIndeterminate(false);
+                    progressBar.setValue(value);
+                }
+            }
+        });
+    }
+
+    @Action
+    public void showAboutBox() {
+        if (aboutBox == null) {
+            JFrame mainFrame = Basic_HTML_DeveloperApp.getApplication().getMainFrame();
+            aboutBox = new Basic_HTML_DeveloperAboutBox(mainFrame);
+            aboutBox.setLocationRelativeTo(mainFrame);
+        }
+        Basic_HTML_DeveloperApp.getApplication().show(aboutBox);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        mainPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        Basic_HTML_Editor_Toolbar = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        menuBar = new javax.swing.JMenuBar();
+        javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        javax.swing.JMenu helpMenu = new javax.swing.JMenu();
+        javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        statusPanel = new javax.swing.JPanel();
+        javax.swing.JSeparator statusPanelSeparator = new javax.swing.JSeparator();
+        statusMessageLabel = new javax.swing.JLabel();
+        statusAnimationLabel = new javax.swing.JLabel();
+        progressBar = new javax.swing.JProgressBar();
+
+        mainPanel.setName("mainPanel"); // NOI18N
+
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setLineWrap(true);
+        jTextArea2.setRows(5);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(Basic_HTML_Developer.Basic_HTML_DeveloperApp.class).getContext().getResourceMap(Basic_HTML_DeveloperView.class);
+        jTextArea2.setText(resourceMap.getString("jTextArea2.text")); // NOI18N
+        jTextArea2.setWrapStyleWord(true);
+        jTextArea2.setName("jTextArea2"); // NOI18N
+        jTextArea2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextArea2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextArea2KeyTyped(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTextArea2);
+        //jTextArea2.getDocument().addDocumentListener(new Vorschau());
+
+        jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
+        jLabel1.setName("jLabel1"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jTextArea1.setWrapStyleWord(true);
+        jTextArea1.setName("jTextArea1"); // NOI18N
+        jTextArea1.getDocument().addDocumentListener(Text);
+        jTextArea1.getDocument().putProperty("name", "Text Area 1");
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        jEditorPane1.setName("jEditorPane1"); // NOI18N
+        jScrollPane4.setViewportView(jEditorPane1);
+        jEditorPane1.setEditable(false);
+        jEditorPane1.setContentType("text/html");
+
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
+        Basic_HTML_Editor_Toolbar.setRollover(true);
+        Basic_HTML_Editor_Toolbar.setName("Basic_HTML_Editor_Toolbar"); // NOI18N
+
+        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
+        jButton1.setName("jButton1"); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Basic_HTML_Editor_Toolbar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(138, 138, 138)
+                                .addComponent(jLabel3)
+                                .addGap(0, 293, Short.MAX_VALUE))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane4))))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addComponent(Basic_HTML_Editor_Toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
+        );
+
+        // Schaltflächen werden erzeugt und unserer JToolBar hinzugefügt
+        JButton ExitButton = new JButton("");
+        ImageIcon icon_Ende = new ImageIcon("icons/Ende.png");
+        ExitButton.setIcon(icon_Ende);
+        ExitButton.setToolTipText("<html>Beendet das Programm.</html>");
+        ExitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                FileReader fr;
+                BufferedReader br;
+                boolean meckern=false;
+                if(letzterOrt!=null){
+                    try {
+                        fr = new FileReader(letzterOrt);
+                        br = new BufferedReader(fr);
+
+                        // Textzeilen der Datei einlesen und auf Konsole ausgeben:
+                        String zeile;
+                        zeile = br.readLine();
+                        String alles = "" + zeile;
+                        while (zeile != null) {
+
+                            zeile = br.readLine();
+                            if (zeile != null) {
+                                alles = alles + zeile;
+                            }
+                        }
+                        if(!alles.equals(jTextArea2.getText()))
+                        meckern=true;
+                        fr.close();
+                    } catch (IOException e) {
+
+                    }
+
+                }
+                else{
+                    meckern=true;}
+                if(meckern){
+                    int eingabe = JOptionPane.showConfirmDialog(null,
+                        "Beenden ohne zu speichern?",
+                        "Einverständnis",
+                        JOptionPane.YES_NO_CANCEL_OPTION);
+                    if(eingabe==JOptionPane.YES_OPTION)
+                    System.exit(0);
+                    if(eingabe==JOptionPane.NO_OPTION){
+                        if(letzterOrt==null)
+                        try {
+                            abspeichern();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        else{
+                            String pfad;
+                            //alter Ort, altes File
+                            pfad = letzterOrt;
+
+                            //HTML-Datei an Zielort erstellen, altes File müsste dabei überschrieben werden
+                            try {
+                                writeUTF8TextFileContent(pfad, jTextArea2.getText());
+                            } catch (IOException ex) {
+                                Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                        }
+                        System.exit(0);
+                    }
+                }
+                else{
+                    System.exit(0);}
+            }
+        });;
+        JButton BrowserButton = new JButton("");
+        ImageIcon icon3 = new ImageIcon("icons/Vorschau.jpg");
+        BrowserButton.setIcon(icon3);
+        BrowserButton.setToolTipText("<html>Zeigt eine Vorschau des reinen Textes.</html>");
+        BrowserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                String Datei;
+
+                try {
+                    //um Desktop.browse benutzen zu können
+                    Desktop desktop = Desktop.getDesktop();
+                    //temporäre Datei erstellen, diese ist vom Typ HTML und der Anfang des Namens ist BHD (Initialen des Programmnamens)
+                    //TempFiles werden nach Programmende entfernt
+                    //TempFile wird erstellt, damit User nicht immer selbst Dateien speichern muss
+                    File temp = File.createTempFile("BHD", "." + "html");
+                    //nach Programmende Datei löschen
+                    temp.deleteOnExit();
+                    //Pfad
+                    String hilfe = temp.toString();
+                    //initialisieren
+                    try {
+                        writeUTF8TextFileContent(hilfe, jTextArea2.getText());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    Datei = "";
+                    //URI als Pfad für den Browser
+                    URI uri;
+                    //Umwandeln des Backslash \ in den URL-Slash /, Rest des Pfads wird übernommen
+                    for (int i = 0; i < hilfe.length(); i++) {
+                        if (hilfe.charAt(i) != (char) 92) {
+                            Datei = Datei + hilfe.charAt(i);
+                        } else {
+                            Datei = Datei + "/";
+                        }
+                    }
+
+                    try {
+                        //So öffnen Browser Dateien: "file:///" und Pfad
+                        uri = new URI("file:///" + Datei);
+                        //temp-File mit Standardbrowser öffnen
+                        desktop.browse(uri);
+                    } catch (Exception oError) {
+                        oError.printStackTrace();
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });;
+        JButton SpeichernButton = new JButton("");
+        ImageIcon icon = new ImageIcon("icons/Speichern.png");
+        SpeichernButton.setIcon(icon);
+        SpeichernButton.setToolTipText("<html>Datei speichern</html>");
+        SpeichernButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if (letzterOrt == null) {
+                    try {
+                        abspeichern();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    String pfad;
+                    //alter Ort, altes File
+                    pfad = letzterOrt;
+
+                    //HTML-Datei an Zielort erstellen, altes File müsste dabei überschrieben werden
+
+                    try {
+                        writeUTF8TextFileContent(pfad, jTextArea2.getText());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }
+        });;
+        GraphicsEnvironment ge = GraphicsEnvironment.
+        getLocalGraphicsEnvironment();
+        String[] fonts = ge.getAvailableFontFamilyNames();
+        final JComboBox FontButton = new JComboBox(fonts);
+        FontButton.setRenderer(new FontCellRenderer());
+        FontButton.setToolTipText("<html>systemeigene TrueType-Schriftart wählen</html>");
+        FontButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                GraphicsEnvironment ge = GraphicsEnvironment.
+                getLocalGraphicsEnvironment();
+                String[] fonts = ge.getAvailableFontFamilyNames();
+                String Schriftart = fonts[FontButton.getSelectedIndex()];
+                String text1 = "<span style=\"font-family:" + Schriftart + "\">";
+                String text2 = "</span><!-- span stellt den font, also das Erscheinungsbild einer Schriftart, ein. Hier: Schriftart. -->";
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), text1, text2, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                //Ansichten aktualisieren
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        String[] größen = new String[70];
+        for (int i = 0; i < 70; i++) {
+            größen[i] = i + "pt";
+
+        }
+        final JComboBox SizeButton = new JComboBox(größen);
+        SizeButton.setSelectedIndex(20);
+        SizeButton.setRenderer(new FontCellRenderer());
+        SizeButton.setToolTipText("<html>Schriftgröße in pt</html>");
+        SizeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String[] größen = new String[70];
+                for (int i = 0; i < 70; i++) {
+                    größen[i] = i + "pt";
+
+                }
+                String größe = größen[SizeButton.getSelectedIndex()];
+                String text1 = "<span style=\"font-size:" + größe + "\">";
+                String text2 = "</span><!-- span stellt den font, also das Erscheinungsbild einer Schriftart, ein. Hier: Schriftgröße. -->";
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), text1, text2, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                //Ansichten aktualisieren
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton FettButton = new JButton("");
+        ImageIcon icon_Fett = new ImageIcon("icons/Fett.png");
+        FettButton.setIcon(icon_Fett);
+        FettButton.setToolTipText("<html>Fett</html>");
+        FettButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<b>", "</b><!-- b:bold:fett -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                //Ansichten aktualisieren
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+
+            }
+        });;
+        JButton KursivButton = new JButton("");
+        ImageIcon icon_Kursiv = new ImageIcon("icons/Kursiv.png");
+        KursivButton.setIcon(icon_Kursiv);
+        KursivButton.setToolTipText("<html>Kursiv</html>");
+        KursivButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<i>", "</i><!-- i:italic:kursiv -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                //Ansichten aktualisieren
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+
+            }
+        });;
+        final JComboBox Ueberschrift= new JComboBox(new String[] { "(keine Aktion)", "Überschrift 1", "Überschrift 2", "Überschrift 3", "Überschrift 4", "Überschrift 5", "Überschrift 6" });
+        Ueberschrift.setSelectedIndex(0);
+        Ueberschrift.setToolTipText("<html>HTML-Überschrift</html>");
+        Ueberschrift.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                //Dieser Button liest den markierten Teil der Area aus und setzt ihn im Area2 in h-Blöcke
+                //herausfinden, welche Überschriftengröße denn gewünscht wird
+                int h = Ueberschrift.getSelectedIndex();
+                //Überschrift wird dann erstellt, wenn nicht "(keine Aktion)" ausgewählt ist und jTextArea2 nicht leer ist
+                if (h != 0 && !jTextArea2.getText().equals("")) {
+                    //zur Sicherheit in Spezialfällen
+                    String hilf3 = jTextArea2.getText() + " ";
+                    //Bestücken der Wiederherstellungsfunktion
+                    speichern(hilf3);
+                    rück = zahl;
+                    zahl++;
+                    String text1 = "<h" + h + ">";
+                    String text2 = "</h" + h + "><!-- h:heading:Überschrift, Zahl=Größe (h1-h6) -->";
+                    String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), text1, text2, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                    //Ansichten aktualisieren
+
+                    jTextArea2.setText(text);
+                    jEditorPane1.setText(text);
+                }
+            }
+        });;
+
+        JButton UnterstrichButton = new JButton("");
+        ImageIcon icon_Unterstrich = new ImageIcon("icons/Unterstrich.png");
+        UnterstrichButton.setIcon(icon_Unterstrich);
+        UnterstrichButton.setToolTipText("<html>Unterstrichen</html>");
+        UnterstrichButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<u>", "</u><!-- u:underline:unterstrichen -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                //Ansichten aktualisieren
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+
+            }
+        });;
+        JButton ÖffnenButton = new JButton("");
+        ImageIcon icon_Öffnen = new ImageIcon("icons/Öffnen.png");
+        ÖffnenButton.setIcon(icon_Öffnen);
+        ÖffnenButton.setToolTipText("<html>HTML-Datei öffnen</html>");
+        ÖffnenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JFileChooser fc = new JFileChooser();
+                fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                fc.setMultiSelectionEnabled(false);
+                fc.setCurrentDirectory(new File(System.getProperty("user.home")));  // Setzt das Startverzeichnis
+                FileFilter filter = new FileNameExtensionFilter("Webseite", "html");
+                fc.setAcceptAllFileFilterUsed(false);
+                fc.addChoosableFileFilter(filter);
+
+                if (fc.showDialog(null, "Datei öffnen") == JFileChooser.APPROVE_OPTION) {
+
+                    try {
+
+                        BufferedReader br = new BufferedReader(
+                            new InputStreamReader(
+                                new FileInputStream(fc.getSelectedFile()), "UTF8"));
+
+                        // Textzeilen der Datei einlesen und auf Konsole ausgeben:
+                        String zeile;
+                        zeile = br.readLine();
+                        String alles = "" + zeile;
+                        while (zeile != null) {
+
+                            zeile = br.readLine();
+                            if (zeile != null) {
+                                alles = alles + zeile;
+                            }
+                        }
+
+                        jTextArea2.setText(alles);
+                        jEditorPane1.setText(alles);
+                        geöffnet = true;
+                        jTextArea1.setText("");
+                        boolean text = true;
+                        for (int i = 0; i < alles.length(); i++) {
+                            geöffnet = true;
+                            if (alles.charAt(i) == '<') {
+                                text = false;
+                            }
+                            if (text) {
+                                jTextArea1.append("" + alles.charAt(i));
+
+                            }
+                            if (alles.charAt(i) == '>') {
+                                text = true;
+                            }
+
+                        }
+                        geöffnet=false;
+                        letzterOrt= fc.getSelectedFile().toString();
+                        br.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });;
+        JButton Neu = new JButton("");
+        ImageIcon icon_Neu = new ImageIcon("icons/Neu.png");
+        Neu.setIcon(icon_Neu);
+        Neu.setToolTipText("<html>Neue Datei erstellen</html>");
+        Neu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                jTextArea1.setText("");
+
+                jTextArea2.setText("");
+                jEditorPane1.setText("");
+            }
+        });;
+        JButton RückgängigButton = new JButton("");
+        ImageIcon icon_Rückgängig = new ImageIcon("icons/Rückgängig.png");
+        RückgängigButton.setIcon(icon_Rückgängig);
+        RückgängigButton.setToolTipText("<html>Rückgängig</html>");
+        RückgängigButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                // TODO add your handling code here:
+                //Bedingung: jTextArea2 ist nicht leer (sonst buggt es am Anfang)
+                if (!jTextArea2.getText().equals("")) {
+                    //wenn man überhaut etwas rückgängig machen kann
+                    if (rück > 0 && !content[rück - 1].equals(jTextArea2.getText())) {
+                        rück--;
+                    }
+                    //Bestücken des Wiederholen-Arrays
+                    String[] temp = new String[wieder];
+                    for (int i = 0; i < wieder - 1; i++) {
+                        temp[i] = Action[i];
+
+                    }
+                    //speichern des aktuellen Wertes des jTextArea2 in Array
+                    temp[wieder - 1] = jTextArea2.getText();
+                    //aktualisieren des Wiederherstellungsarrays
+                    Action = temp;
+                    //wie beim Speichern des Rückgängig-Arrays
+                    Act = wieder;
+                    wieder++;
+                    //Rücksetzen des jTextArea2's
+
+                    jTextArea2.setText(content[rück]);
+                    jEditorPane1.setText(jTextArea2.getText());
+                }
+            }
+        });;
+        JButton ResetButton = new JButton("");
+        ImageIcon icon_Reset = new ImageIcon("icons/Reset.png");
+        ResetButton.setIcon(icon_Reset);
+        ResetButton.setToolTipText("<html>Zurücksetzen auf unformatierten Text.</html>");
+        ResetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                //einfügen von Präambeln in HTML-Codefenster, leeren von diesem
+                String Text = jTextArea1.getText();
+                //speichern des Momentanzustandes in Wiederherstellungs-Array
+                speichern(jTextArea2.getText());
+                //Zahlen der Gesamtzahl und der letzten Einfügung ändern
+                rück = zahl;
+                zahl++;
+                //Area leeren
+
+                jTextArea2.setText("");
+                //Präambeln
+
+                jTextArea2.append(Kopf);
+                //Text und Schlusspräambeln einfügen
+
+                jTextArea2.append(Text);
+
+                jTextArea2.append(Ende);
+                //aktualisieren der Vorschau
+                jEditorPane1.setText(jTextArea2.getText());
+            }
+        });;
+        JButton WiederholenButton = new JButton("");
+        ImageIcon icon_Wiederholen = new ImageIcon("icons/Wiederholen.png");
+        WiederholenButton.setIcon(icon_Wiederholen);
+        WiederholenButton.setToolTipText("<html>Wiederholen</html>");
+        WiederholenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                //Sichern des aktuellen Wertes in Rückgängig-Array
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String hilf3 = jTextArea2.getText() + " ";
+
+                speichern(hilf3);
+
+                rück = zahl;
+                zahl++;
+                //gegen Bugs
+                if (Act > Action.length - 1) {
+                    Act = Action.length - 1;
+                }
+                //wenn man noch etwas rückgängig machen kann
+                if (Act > 0 && !Action[Act - 1].equals(jTextArea2.getText())) {
+                    Act--;
+                }
+                //Area zurücksetzen
+
+                jTextArea2.setText(Action[Act]);
+                jEditorPane1.setText(jTextArea2.getText());
+
+            }
+        });;
+        JButton hochgestellt = new JButton("");
+        ImageIcon icon_hochgestellt = new ImageIcon("icons/hochgestellt.png");
+        hochgestellt.setIcon(icon_hochgestellt);
+        hochgestellt.setToolTipText("<html>hochgestellt</html>");
+        hochgestellt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<sup>", "</sup><!-- sup:hochgestellt -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                //Ansichten aktualisieren
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton nichtnummeriertButton = new JButton("");
+        ImageIcon icon_nichtnummeriertButton = new ImageIcon("icons/nicht_nummeriert.jpg");
+        nichtnummeriertButton.setIcon(icon_nichtnummeriertButton);
+        nichtnummeriertButton.setToolTipText("<html>nicht nummerierte Aufzählung</html>");
+        nichtnummeriertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String text=jTextArea2.getText();
+                int weiter =0;
+                if(!verstanden&&gemacht){
+                    weiter =  JOptionPane.showConfirmDialog(null,
+                        "Haben Sie das Prinzip verstanden?",
+                        "Item hinzufügen",
+                        JOptionPane.YES_NO_OPTION);
+                    if(weiter==0)
+                    verstanden=true;
+
+                }
+                if(!gemacht||!verstanden){
+                    weiter =  JOptionPane.showConfirmDialog(null,
+                        "Haben Sie alle Elemente markiert, die dieser Liste zugeordnet werden sollen?",
+                        "Liste (Aufzählung) erstellen",
+                        JOptionPane.YES_NO_OPTION);
+                    gemacht=true;
+                }
+                if(weiter == JOptionPane.YES_OPTION){
+                    text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<ul>", "</ul><!-- ul umrandet alle Elemente, die einer nicht nummerierten Aufzählung angehören -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+                }
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton nummeriertButton = new JButton("");
+        ImageIcon icon_nummeriertButton = new ImageIcon("icons/nummeriert.jpg");
+        nummeriertButton.setIcon(icon_nummeriertButton);
+        nummeriertButton.setToolTipText("<html>nummerierte Aufzählung</html>");
+        nummeriertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String text=jTextArea2.getText();
+                int weiter =0;
+                if(!verstanden&&gemacht){
+                    weiter =  JOptionPane.showConfirmDialog(null,
+                        "Haben Sie das Prinzip verstanden?",
+                        "Item hinzufügen",
+                        JOptionPane.YES_NO_OPTION);
+                    if(weiter==0)
+                    verstanden=true;
+
+                }
+                if(!gemacht||!verstanden){
+                    weiter =  JOptionPane.showConfirmDialog(null,
+                        "Haben Sie alle Elemente markiert, die dieser Liste zugeordnet werden sollen?",
+                        "Liste (Aufzählung) erstellen",
+                        JOptionPane.YES_NO_OPTION);
+                    gemacht=true;
+                }
+                if(weiter == JOptionPane.YES_OPTION){
+                    text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<ol>", "</ol><!-- ol umrandet alle Elemente, die einer nummerierten Aufzählung angehören sollen -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+                }
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton ItemButton = new JButton("");
+        ImageIcon icon_ItemButton = new ImageIcon("icons/Item.png");
+        ItemButton.setIcon(icon_ItemButton);
+        ItemButton.setToolTipText("<html>neues Element der Aufzählung hinzufügen</html>");
+        ItemButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String text=jTextArea2.getText();
+                int  weiter = 0;
+                if(!verstanden&&gemacht){
+                    weiter =  JOptionPane.showConfirmDialog(null,
+                        "Haben Sie das Prinzip verstanden?",
+                        "Item hinzufügen",
+                        JOptionPane.YES_NO_OPTION);
+                    if(weiter==0)
+                    verstanden=true;
+
+                }
+                if(!gemacht||!verstanden){
+                    weiter =  JOptionPane.showConfirmDialog(null,
+                        "Haben Sie bereits eine Liste erstellt?",
+                        "Item hinzufügen",
+                        JOptionPane.YES_NO_OPTION);
+                    gemacht = true;
+                }
+
+                if(weiter == JOptionPane.YES_OPTION){
+                    text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<li>", "</li><!-- li fügt einem Item, das Teil einer Aufzählung ist, ein Aufzählungszeichen hinzu, wenn nicht von ul/ol umrandet: unsortierte Liste -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+                }
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton color = new JButton("");
+        ImageIcon icon_color = new ImageIcon("icons/color.png");
+        color.setToolTipText("<html>Farbe wählen</html>");
+        color.setIcon(icon_color);
+        color.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // TODO add your handling code here:
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                Color ausgewaehlteFarbe = JColorChooser.showDialog(null, "Farbauswahl", null);
+                // Farbauswahl mithilfe des J.colorChooser
+
+                String Farbe = ausgewaehlteFarbe.toString();//Farbe (Typ Color) in String umwande
+                //String-Builder, um spezielle Vorteile dieses Variablentyps zu nutzen (insert-Einfügen)
+                String hilf4 = "";//Hilfs-String zum Anlegen einer Klasse (CSS)
+                char[] chars = Farbe.toCharArray();//Farb-STring in Array umwandeln
+                String h1 = "";
+                int j = 1;//Zähler für 3 Zahligen RGB-Color Code
+
+                for (int i = 17; i < Farbe.length(); i++) {
+                    //Schleife zum Auslesen der Farbwerte aus dem RGB-Code
+                    if (chars[i] == ',' || chars[i] == ']') {
+                        i = i + 2;
+                        hilf4 = hilf4 + h1;
+                        if (j <= 2) {
+                            hilf4 = hilf4 + ",";
+                        }
+                        j++;
+                        h1 = "";
+                    } else {
+                        h1 = h1 + chars[i];
+
+                    }
+
+                }
+                String text1 = "<a style='color:rgb(" + hilf4 + ")'>";//Starttag
+                String text2 = "</a><!-- style tag, formatiert Text mit rgb-Farbe -->";//Endtag
+
+                String ausgabe = einklammern(jTextArea2.getText(), jTextArea1.getText().length(),text1 ,text2 , jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                jTextArea2.setText(ausgabe);//Einfügen des HTML-Codes in das jTextArea2
+                jEditorPane1.setText(jTextArea2.getText());
+
+            }
+        });;
+        JButton tabelle = new JButton("");
+        ImageIcon icon_tabelle = new ImageIcon("icons/tabel.png");
+        tabelle.setIcon(icon_tabelle);
+        tabelle.setToolTipText("<html>Tabelle erstellen</html>");
+        tabelle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                // TODO add your handling code here:
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                JTextField zeilen = new JTextField("5");
+                JTextField spalten = new JTextField("5");
+                JComboBox align = new JComboBox(new String[]{"links", "mitte", "rechts"});
+                align.setSelectedIndex(0);
+                JButton Rahmenfarbe = new JButton("<html><head><meta charset = \"utf-8\"><body>Farbe wählen</body></html>");
+                Rahmenfarbe.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent event) {
+                        Color your_color = Color.BLACK;
+                        your_color = JColorChooser.showDialog(null, "Farbauswahl", null);
+                        Rahmenf = "#" + Integer.toHexString(your_color.getRGB()).substring(2);
+
+                    }
+                });
+                JButton Hintergrundfarbe = new JButton("<html><head><meta charset = \"utf-8\"><body>Farbe wählen</body></html>");
+                Hintergrundfarbe.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent event) {
+                        Color your_color = Color.WHITE;
+                        your_color = JColorChooser.showDialog(null, "Farbauswahl", null);
+
+                        Hintergrundf = "#" + Integer.toHexString(your_color.getRGB()).substring(2);
+
+                    }
+                });
+                JTextField zwischenzellundinhalt = new JTextField("1");
+                JTextField zwischenzell = new JTextField("1");
+                JCheckBox rahmen = new JCheckBox("Rahmen?");
+                rahmen.setSelected(true);
+                Object[] message = {"Anzahl der Zeilen", zeilen,
+                    "Anzahl der Spalten", spalten, "Ausrichtung", align, "Rahmenfarbe", Rahmenfarbe,
+                    "Hintergrundfarbe", Hintergrundfarbe, "Abstand zwischen Rahmen und Inhalt in pt", zwischenzellundinhalt, "Abstand zwischen Zellen in pt", zwischenzell, rahmen};
+
+                JOptionPane pane = new JOptionPane(message,
+                    JOptionPane.PLAIN_MESSAGE,
+                    JOptionPane.OK_CANCEL_OPTION);
+
+                pane.createDialog(null, "Tabellen").setVisible(true);
+                int zeilen1 = Integer.parseInt(zeilen.getText());
+                int spalten1 = Integer.parseInt(spalten.getText());
+                String neu = "";
+                String[][] rowData = new String[zeilen1][spalten1];
+                int zähler = 0;
+                int al = align.getSelectedIndex();
+                String ausr = "";
+                switch (al) {
+                    case 0:
+                    ausr = "left";
+                    break;
+                    case 1:
+                    ausr = "center";
+                    break;
+                    case 2:
+                    ausr = "right";
+                    break;
+                }
+
+                for (int i = 0; i < zeilen1; i++) {
+                    for (int j = 0; j < spalten1; j++) {
+                        rowData[i][j] = "" + (char) (65 + zähler);
+                        zähler++;
+                    }
+                }
+                int border;
+                if (rahmen.isSelected()) {
+                    border = 1;
+                } else {
+                    border = 0;
+                }
+                String[] columnNames = new String[spalten1];
+                for (int i = 0; i < spalten1; i++) {
+                    columnNames[i] = "" + i;
+                }
+                TableModel model = new EditableTableModel(columnNames, rowData);
+                JTable table = new JTable(model);
+                table.createDefaultColumnsFromModel();
+
+                JOptionPane pane2 = new JOptionPane(table,
+                    JOptionPane.PLAIN_MESSAGE,
+                    JOptionPane.OK_CANCEL_OPTION);
+                pane2.createDialog(null, "Eingabe").setVisible(true);
+                neu = neu + "<table border='" + border + "' align = '" + ausr + "' bordercolor = \"" + Rahmenf + "\""
+                + "bgcolor = \"" + Hintergrundf + "\" cellpadding = \"" + zwischenzellundinhalt.getText() + "\" cellspacing = \"" + zwischenzell.getText() + "\"><!-- Tabellen-Starttag, border weist Rahmen Breite in pt zu, "
+                + "align die Ausrichtung (left,center,right) -->";
+                String area = "";
+                zähler = 0;
+                for (int i = 1; i <= zeilen1; i++) {
+                    neu = neu + "<tr>";
+                    for (int j = 1; j <= spalten1; j++) {
+                        if (i == 1) {
+                            neu = neu + "<th>" + "<b>";
+                        } else {
+                            neu = neu + "<td>";
+                        }
+                        area = table.getValueAt(i - 1, j - 1).toString();
+
+                        if (i == 1) {
+                            neu = neu + area + "</b>" + "</th>";
+                        } else {
+                            neu = neu + area + "</td>";
+                        }
+                    }
+                    neu = neu + "</tr><!-- Zeilenende -->";
+                }
+                neu = neu + "</table><!-- tr: Zeilenanfang --><!-- th, b erste Zeile fett, th=Überschriftenzelle --><!-- td beginnt Zelle,td=normale Zeile --><!-- Tabellenende -->";
+                String Text = einfueg(jTextArea2.getText(), jTextArea1.getText().length(), neu, jTextArea1.getCaretPosition());
+
+                jTextArea2.setText(Text);
+                jEditorPane1.setText(Text);
+                for (int i = 0; i < zeilen1; i++) {
+                    for (int j = 0; j < spalten1; j++) {
+                        area = table.getValueAt(i, j).toString();
+                        geöffnet = true;
+                        jTextArea1.insert(area, jTextArea1.getCaretPosition() + zähler);
+                        zähler++;
+                    }
+
+                }
+
+            }
+        });;
+        JButton tiefgestellt = new JButton("");
+        ImageIcon icon_tiefgestellt = new ImageIcon("icons/tiefgestellt.png");
+        tiefgestellt.setIcon(icon_tiefgestellt);
+        tiefgestellt.setToolTipText("<html>tiefgestellt</html>");
+        tiefgestellt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<sub>", "</sub><!-- sub:tiefgestellt -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                //Ansichten aktualisieren
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton durchgestrichen = new JButton("");
+        ImageIcon icon_durchgestrichen = new ImageIcon("icons/durchgestrichen.png");
+        durchgestrichen.setIcon(icon_durchgestrichen);
+        durchgestrichen.setToolTipText("<html>durchgestrichen</html>");
+        durchgestrichen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), "<strike>", "</strike><!-- strike:gestrichen:durchgestrichen -->", jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());
+
+                //Ansichten aktualisieren
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                jTextArea2.setText(text);
+                jEditorPane1.setText(text);
+            }
+        });;
+        JButton linksbündig = new JButton("");
+        ImageIcon icon_linksbündig = new ImageIcon("icons/linksbündig.png");
+        linksbündig.setIcon(icon_linksbündig);
+        linksbündig.setToolTipText("<html>linksbündig</html>");
+        linksbündig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String Text = einklammern(jTextArea2.getText(),jTextArea1.getText().length(),"<p style=\"text-align:left;\">","</p> ",jTextArea1.getSelectionStart(),jTextArea1.getSelectionEnd());
+                geöffnet = true;
+                jTextArea1.insert(" ",jTextArea1.getSelectionEnd());
+
+                jTextArea2.setText(Text);
+                jEditorPane1.setText(Text);
+            }
+        });;
+        JButton rechtsbündig = new JButton("");
+        ImageIcon icon_rechtsbündig = new ImageIcon("icons/rechtsbündig.png");
+        rechtsbündig.setIcon(icon_rechtsbündig);
+        rechtsbündig.setToolTipText("<html>rechtsbündig</html>");
+        rechtsbündig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                String Text = einklammern(jTextArea2.getText(),jTextArea1.getText().length(),"<p style=\"text-align:right;\">","</p> ",jTextArea1.getSelectionStart(),jTextArea1.getSelectionEnd());
+                geöffnet = true;
+                jTextArea1.insert(" ",jTextArea1.getSelectionEnd());
+
+                jTextArea2.setText(Text);
+                jEditorPane1.setText(Text);
+            }
+        });;
+        JButton zentriert = new JButton("");
+        ImageIcon icon_zentriert = new ImageIcon("icons/zentriert.png");
+        zentriert.setIcon(icon_zentriert);
+        zentriert.setToolTipText("<html>zentriert</html>");
+        zentriert.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String Text = einklammern(jTextArea2.getText(),jTextArea1.getText().length(),"<p style=\"text-align:center;\">","</p> ",jTextArea1.getSelectionStart(),jTextArea1.getSelectionEnd());
+                geöffnet = true;
+                jTextArea1.insert(" ",jTextArea1.getSelectionEnd());
+
+                jTextArea2.setText(Text);
+                jEditorPane1.setText(Text);
+            }
+        });;
+        JButton block = new JButton("");
+        ImageIcon icon_block = new ImageIcon("icons/zentriert.png");
+        block.setIcon(icon_zentriert);
+        block.setToolTipText("<html>Blocksatz</html>");
+        block.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                speichern(jTextArea2.getText());
+
+                rück = zahl;
+                zahl++;
+
+                String Text = einklammern(jTextArea2.getText(),jTextArea1.getText().length(),"<p style=\"text-align:justify;\">","</p> ",jTextArea1.getSelectionStart(),jTextArea1.getSelectionEnd());
+                geöffnet = true;
+                jTextArea1.insert(" ",jTextArea1.getSelectionEnd());
+
+                jTextArea2.setText(Text);
+                jEditorPane1.setText(Text);
+            }
+        });;
+        Basic_HTML_Editor_Toolbar.add(Neu);
+        Basic_HTML_Editor_Toolbar.add(ÖffnenButton);
+        Basic_HTML_Editor_Toolbar.add(SpeichernButton);
+        Basic_HTML_Editor_Toolbar.add(BrowserButton);
+        Basic_HTML_Editor_Toolbar.add(RückgängigButton);
+        Basic_HTML_Editor_Toolbar.add(ResetButton);
+        Basic_HTML_Editor_Toolbar.add(WiederholenButton);
+        Basic_HTML_Editor_Toolbar.add(Ueberschrift);
+        Basic_HTML_Editor_Toolbar.add(FontButton);
+        Basic_HTML_Editor_Toolbar.add(SizeButton);
+        Basic_HTML_Editor_Toolbar.add(linksbündig);
+        Basic_HTML_Editor_Toolbar.add(zentriert);
+        Basic_HTML_Editor_Toolbar.add(rechtsbündig);
+        Basic_HTML_Editor_Toolbar.add(block);
+        Basic_HTML_Editor_Toolbar.add(FettButton);
+        Basic_HTML_Editor_Toolbar.add(KursivButton);
+        Basic_HTML_Editor_Toolbar.add(UnterstrichButton);
+        Basic_HTML_Editor_Toolbar.add(durchgestrichen);
+        Basic_HTML_Editor_Toolbar.add(hochgestellt);
+        Basic_HTML_Editor_Toolbar.add(tiefgestellt);
+        Basic_HTML_Editor_Toolbar.add(nichtnummeriertButton);
+        Basic_HTML_Editor_Toolbar.add(ItemButton);
+        Basic_HTML_Editor_Toolbar.add(nummeriertButton);
+        Basic_HTML_Editor_Toolbar.add(color);
+        Basic_HTML_Editor_Toolbar.add(tabelle);
+        Basic_HTML_Editor_Toolbar.add(ExitButton);
+
+        menuBar.setName("menuBar"); // NOI18N
+
+        fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
+        fileMenu.setName("fileMenu"); // NOI18N
+
+        jMenuItem3.setText(resourceMap.getString("jMenuItem3.text")); // NOI18N
+        jMenuItem3.setName("jMenuItem3"); // NOI18N
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem3);
+
+        jMenuItem5.setText(resourceMap.getString("jMenuItem5.text")); // NOI18N
+        jMenuItem5.setName("jMenuItem5"); // NOI18N
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem5);
+
+        jMenuItem11.setText(resourceMap.getString("jMenuItem11.text")); // NOI18N
+        jMenuItem11.setName("jMenuItem11"); // NOI18N
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem11);
+
+        jMenuItem12.setText(resourceMap.getString("jMenuItem12.text")); // NOI18N
+        jMenuItem12.setName("jMenuItem12"); // NOI18N
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem12);
+
+        jMenuItem4.setText(resourceMap.getString("jMenuItem4.text")); // NOI18N
+        jMenuItem4.setName("jMenuItem4"); // NOI18N
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem4);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
+        jMenuItem1.setName("jMenuItem1"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
+        jMenuItem2.setName("jMenuItem2"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem2);
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(Basic_HTML_Developer.Basic_HTML_DeveloperApp.class).getContext().getActionMap(Basic_HTML_DeveloperView.class, this);
+        exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
+        exitMenuItem.setText(resourceMap.getString("exitMenuItem.text")); // NOI18N
+        exitMenuItem.setName("exitMenuItem"); // NOI18N
+        fileMenu.add(exitMenuItem);
+
+        menuBar.add(fileMenu);
+
+        jMenu2.setText(resourceMap.getString("jMenu2.text")); // NOI18N
+        jMenu2.setName("jMenu2"); // NOI18N
+
+        jMenuItem6.setText(resourceMap.getString("jMenuItem6.text")); // NOI18N
+        jMenuItem6.setName("jMenuItem6"); // NOI18N
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem8.setText(resourceMap.getString("jMenuItem8.text")); // NOI18N
+        jMenuItem8.setName("jMenuItem8"); // NOI18N
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
+        jMenuItem9.setText(resourceMap.getString("jMenuItem9.text")); // NOI18N
+        jMenuItem9.setName("jMenuItem9"); // NOI18N
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem9);
+
+        jMenuItem10.setText(resourceMap.getString("jMenuItem10.text")); // NOI18N
+        jMenuItem10.setName("jMenuItem10"); // NOI18N
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem10);
+
+        jMenuItem7.setText(resourceMap.getString("jMenuItem7.text")); // NOI18N
+        jMenuItem7.setName("jMenuItem7"); // NOI18N
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+
+        menuBar.add(jMenu2);
+
+        helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
+        helpMenu.setName("helpMenu"); // NOI18N
+
+        aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
+        aboutMenuItem.setText(resourceMap.getString("aboutMenuItem.text")); // NOI18N
+        aboutMenuItem.setName("aboutMenuItem"); // NOI18N
+        helpMenu.add(aboutMenuItem);
+
+        jMenuItem13.setText(resourceMap.getString("jMenuItem13.text")); // NOI18N
+        jMenuItem13.setName("jMenuItem13"); // NOI18N
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        helpMenu.add(jMenuItem13);
+
+        menuBar.add(helpMenu);
+
+        statusPanel.setName("statusPanel"); // NOI18N
+
+        statusPanelSeparator.setName("statusPanelSeparator"); // NOI18N
+
+        statusMessageLabel.setName("statusMessageLabel"); // NOI18N
+
+        statusAnimationLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        statusAnimationLabel.setName("statusAnimationLabel"); // NOI18N
+
+        progressBar.setName("progressBar"); // NOI18N
+
+        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
+        statusPanel.setLayout(statusPanelLayout);
+        statusPanelLayout.setHorizontalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statusMessageLabel)
+                .addGap(135, 135, 135)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 879, Short.MAX_VALUE)
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statusAnimationLabel)
+                        .addContainerGap())))
+        );
+        statusPanelLayout.setVerticalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(statusMessageLabel)
+                    .addComponent(statusAnimationLabel)
+                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
+        );
+
+        setComponent(mainPanel);
+        setMenuBar(menuBar);
+        setStatusBar(statusPanel);
+    }// </editor-fold>//GEN-END:initComponents
+    //Hier möchte ich einmal wesentliche Strings speichern und static-Variablen, die an vielen Stellen gebraucht werden,definieren, 
+    //um sie schnell überall zu ändern.
+    //gespeichert werden Presets und Präambeln
+    static String Rahmenf = "#" + Integer.toHexString(Color.BLACK.getRGB()).substring(2);
+    static String Hintergrundf = "#" + Integer.toHexString(Color.WHITE.getRGB()).substring(2);
+    static boolean gemacht = false;
+    static boolean verstanden = false;
+    static boolean geöffnet = false;
+    static String Kopf = new String("<!-- Innerhalb dieser tags alles schreiben, was Kommentar ist; diese werden vom Interpreter ignoriert, aber sind zur Orientierung in den Codes hilfreich. -->" + (char) 10
+            + "<DOCTYPE html>" + (char) 10 + "<html><!-- Beginn des Dokumentes -->" + (char) 10 + "<head>" + (char) 10 + "<meta charset='utf-8'>" + (char) 10 + "<style type='text/css'></style>" + (char) 10 + "</head><!-- Kopf des Dokumentes mit utf-8 für die Darstellung von Umlauten und dem style type für die Schriftfarben -->" + (char) 10 + "<body>"
+            + "<!-- Hier kommt der Inhalt -->" + (char) 10);
+    static String Doctype = "";
+    static String Metadaten = "";
+    static String Ende = new String((char) 10 + "</body>" + (char) 10 + "</html><!-- Ende des Dokumentes -->"+(char)10+"<!-- Um Farben manuell zu ändern, kann der beigelegte Farbwertermittler benutzt werden. -->");
+    //Wiederherstellungs-Array
+    static String[] content = new String[1];
+    //Zähler
+    static int zahl = 1;
+    static int rück = 0;
+    //Wiederholungs-Array und 2 Zähler
+    static String[] Action = new String[1];
+    static int Act = 0, wieder = 1;
+    static boolean neugeöffnet = true;
+    static boolean BackgroundAusDatei = false;
+    //Texthintergrundformatierungen
+    static String Texthintergrund;
+    static String Textf;
+    static String Linkf;
+    static String Link2f;
+
+    /**
+     * Hauptmethode zum Einfügen von HTML-Befehlen
+     *
+     * @param code - aktueller HTML-Code aus jTextArea2
+     * @param laenge - Zeichenlänge des Textes in jTextArea1
+     * @param text1 - Starttag
+     * @param text2 - Endtag
+     * @param anfang - Anfangsposition der Markierung
+     * @param ende - Endposition der Markierung
+     * @return Zusammengefügter, neuer HTML Code
+     */
+    public String einklammern(String code, int laenge, String text1, String text2, int anfang, int ende) {
+
+        //Definition nötiger Variablen
+        String Text = "";
+
+        Text = "";
+        int nu = 0;
+        //Flaggen-Prinzip
+        boolean gefunden = false;
+        //Sonderfälle müssen beachtet werden
+        //Sonderfall: Überschrift von Anfang an
+        if (anfang == 0) {
+            nu--;
+            anfang++;
+        }
+        //Schleife sucht den Anfang der Markierung im HTML-Code
+        for (int i = nu; i < anfang; i++) {
+            //um Bugs zu vermeiden
+            if (i < 0) {
+                i++;
+            }
+            //Wert, den am Ende das Area erhält: alter Code bis zum Anfang der Überschrift, 
+            //dann Überschrift, dann Rest des alten Codes
+            Text = Text + code.charAt(i);
+            //wesentliches Element des Codes
+            //HTML-tags beginnen immer mit einem '<', also liegt ein tag vor, wenn ein '<' gelesen wird
+            if (code.charAt(i) == '<') {
+                //wie gesagt- Flaggenprinzip
+                gefunden = true;
+            }
+
+            //tags kommen nur im HTML-Code vor, also ist dieser länger und die Marken verschieben sich
+            if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                anfang++;
+                ende++;
+                laenge++;
+            }
+            //tags werden immer durch ein '>' beendet
+            if (code.charAt(i) == '>') {
+                gefunden = false;
+
+            }
+            //Wiederholung bis zum Erreichen des Anfangs der Überschrift
+
+        }
+        //sichern des Wertes von temporär
+        String temporär = Text;
+        //anfang ist bei diesem Prinzip immer um 1 zu groß
+        anfang--;
+        Text = "";
+        //alle Zeichen bis auf letztes übernehmen
+        for (int i = 0; i < anfang; i++) {
+            Text = Text + temporär.charAt(i);
+        }
+        //hinzufügen des Starttags
+        Text = Text + text1;
+        //gleiches Prinzip wie oben, übernimmt den Text inklusive anderer tags wie Zeilenumbrüchen bis Endtag
+        gefunden = false;
+        for (int i = anfang; i < ende; i++) {
+            Text = Text + code.charAt(i);
+            if (code.charAt(i) == '<') {
+
+                gefunden = true;
+            }
+            if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                ende++;
+                laenge++;
+            }
+            if (code.charAt(i) == '>') {
+                gefunden = false;
+
+            }
+        }
+        //Endtag
+        Text = Text + text2;
+        //übernimmt Code bis zum Ende
+        gefunden = false;
+        String helper = code + "      ";
+        for (int i = ende; i < laenge; i++) {
+            Text = Text + code.charAt(i);
+            if (helper.charAt(i) == '<') {
+                gefunden = true;
+            }
+            if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                laenge++;
+            }
+            if (helper.charAt(i) == '>') {
+                gefunden = false;
+
+            }
+        }
+        //HTML Code bis zu Ende zusammenfügen
+        for (int i = laenge; i < code.length(); i++) {
+            Text = Text + code.charAt(i);
+        }
+        return Text;
+
+    }
+
+    /**
+     * Funktion zum Einfügen von HTML-Befehlen an die Curser-Position
+     *
+     * @param code - aktueller HTML-Code aus jTextArea2
+     * @param laenge - Länge des Textes aus jTextArea1
+     * @param text1 - HTML-Tag
+     * @param anfang - Curserposition im jTextArea1
+     * @return
+     */
+    public String einfueg(String code, int laenge, String text1, int anfang) {
+
+        int helper = anfang;
+        int ende;
+        //ende 1 höher als anfang, wenn möglich
+        if (helper != laenge) {
+            ende = laenge + 1;
+        } else {
+            ende = anfang;
+
+        }
+        //Variablen
+        String Text = "";
+        int nu = 0;
+        boolean gefunden = false;
+        String temporär;
+        Text = "";
+        //ab hier wie bei Überschriften
+        if (anfang == 0) {
+            nu--;
+            anfang++;
+        }
+        if (helper == jTextArea1.getText().length()) {
+            anfang--;
+        }
+        for (int i = nu; i < anfang + 1; i++) {
+            if (i < 0) {
+                i++;
+            }
+            Text = Text + jTextArea2.getText().charAt(i);
+            if (jTextArea2.getText().charAt(i) == '<') {
+
+                gefunden = true;
+            }
+            if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                anfang++;
+                ende++;
+                laenge++;
+            }
+            if (jTextArea2.getText().charAt(i) == '>') {
+                gefunden = false;
+
+            }
+
+        }
+
+        temporär = Text;
+        if (helper == jTextArea1.getText().length()) {
+            anfang++;
+            ende++;
+        }
+        if (helper == 0) {
+            anfang--;
+        }
+        Text = "";
+        for (int i = 0; i < anfang; i++) {
+            Text = Text + temporär.charAt(i);
+        }
+        if (text1 != null) {
+            String vid = text1;
+            Text = Text + vid;
+            //Rest wie oben
+        }
+        gefunden = false;
+        String helper2 = jTextArea2.getText() + "      ";
+        for (int i = anfang; i < code.length(); i++) {
+            Text = Text + code.charAt(i);
+            if (helper2.charAt(i) == '<') {
+                gefunden = true;
+            }
+            if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                laenge++;
+
+            }
+            if (helper2.charAt(i) == '>') {
+                gefunden = false;
+
+            }
+        }
+        return Text;
+
+    }
+
+    /**
+     * Der speichern-Befehl
+     *
+     * @param evt wenn auf das MenuItem "Speichern" geklickt wird, wird aktuelle
+     * Datei durch noch aktuellere ersetzt
+     */
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        //vorher muss gezielt gespeichert werden
+        if (letzterOrt == null) {
+            try {
+                abspeichern();
+            } catch (IOException ex) {
+                Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                writeUTF8TextFileContent("" + letzterOrt, jTextArea2.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    static String letzterOrt = null;
+
+    /**
+     * Der Speichern unter- Menüeintrag
+     *
+     * @param evt wenn im Menü angeklickt
+     */
+    private void abspeichern() throws IOException {
+        //hier speichert das Programm die Ausgabe als html-Datei
+        // JFileChooser-Objekt erstellen
+        //JFileChooser chooser = new JFileChooser();
+        // Dialog zum Oeffnen von Dateien anzeigen
+        //int ort=chooser.showSaveDialog(null);
+        String pfad;
+        //Benutzerverzeichnis
+        pfad = System.getProperty("user.home");
+        //Speichern unter-Fenster
+        JFileChooser chooser;
+        //wird mit Userverzeichnis gestartet
+        chooser = new JFileChooser(pfad);
+        //ist ein Speichern-Dialog
+        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        //Nur HTML-Dateien
+        FileNameExtensionFilter html = new FileNameExtensionFilter(
+                "Website: html", "html");
+        chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
+
+        chooser.setFileFilter(html);
+        //Titel
+        chooser.setDialogTitle("Website speichern unter...");
+        chooser.setVisible(true);
+        //Anzeigen ohne Parameter und überprüfen
+        int result = chooser.showSaveDialog(null);
+
+        //Wenn Klick auf speichern,
+        if (result == JFileChooser.APPROVE_OPTION) //dann wird speicherort ermittelt
+        {
+            pfad = chooser.getSelectedFile().toString();
+            letzterOrt = pfad;
+            writeUTF8TextFileContent("" + pfad, jTextArea2.getText());
+
+        }
+    }
+
+    /**
+     * Speichern unter-Eintrag
+     *
+     * @param evt
+     */
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        try {
+            abspeichern();
+        } catch (IOException ex) {
+            Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    /**
+     * Bild einfügen- Eintrag
+     *
+     * @param evt
+     */
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        //Presets
+        JTextField Ort = new JTextField("Bild.jpg");
+        JTextField alt = new JTextField("Alternativtext");
+        Object[] message = {"Name der Datei in selbem Ordner", Ort, "<html>Alternativtext, falls Bild nicht angezeigt werden kann</html>", alt};
+        JOptionPane pane;
+        pane = new JOptionPane(message,
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.OK_CANCEL_OPTION);
+        pane.createDialog(null, "Bild einfügen").setVisible(true);
+        speichern(jTextArea2.getText());
+
+        rück = zahl;
+        zahl++;
+        int currentCaretPosition = jTextArea1.getCaretPosition();
+
+        //Dieser Button liest den markierten teil der Area aus und gibt ihn in die Konsole zurück
+        //jTextArea.getSelectedText() liest markierten Teil aus
+        int länge = jTextArea1.getText().length();
+        String text1 = "<img src=\"" + Ort.getText() + "\" alt=\"" + alt.getText() + "\" ><!-- src=source: Quelle des Bildes, bei Veröffentlichung zwingend im selben Ordner,"
+                + "mit z.B. Ordner/Bild.jpg aber auch in Unterordner positionierbar, alt=alternative Text, der angezeigt wird, wenn Grafik nicht laden kann  -->";
+        //String code, int laenge, String text1, int anfang
+        String End = einfueg(jTextArea2.getText(), jTextArea1.getText().length(), text1, jTextArea1.getCaretPosition());
+        //jTextArea.getSelectionStart() und -End() lesen Anfang und Ende der Markierung aus
+
+        jTextArea2.setText(End);
+        jEditorPane1.setText(End);
+
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    /**
+     * der Menüeintrag für embedded Video
+     *
+     * @param evt bei Klick
+     */
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        //bestücken der Rückgängig- Funktion
+        speichern(jTextArea2.getText());
+
+        rück = zahl;
+        zahl++;
+        //Cursorposition auslesen
+        int currentCaretPosition = jTextArea1.getCaretPosition();
+
+        int länge = jTextArea1.getText().length();
+        int anfang = currentCaretPosition;
+        int ende;
+        //ende 1 höher als anfang, wenn möglich
+        if (currentCaretPosition != jTextArea1.getText().length()) {
+            ende = currentCaretPosition + 1;
+        } else {
+            ende = anfang;
+
+        }
+
+        //User muss Quellcode für das Einbinden von Quellseite kopieren (können wir nicht allgemein ermitteln)
+        String eingabe = JOptionPane.showInputDialog(null, "Wenn die Quellseite das Einbinden des Videos erlaubt, muss es eine Embedded- Funktion auf dieser geben. Bitte fügen Sie hier den erzeugten Sourcecode ein.",
+                "Videodatei einbinden",
+                JOptionPane.PLAIN_MESSAGE);
+        if (eingabe != null) {
+            String vid = eingabe;
+
+            //Rest wie oben bei Überschriften
+        }
+        String End = einfueg(jTextArea2.getText(), jTextArea1.getText().length(), eingabe, jTextArea1.getCaretPosition());
+        //jTextArea.getSelectionStart() und -End() lesen Anfang und Ende der Markierung aus
+
+        jTextArea2.setText(End);
+        jEditorPane1.setText(End);
+
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    /**
+     * der Knopf für Video aus Datei
+     *
+     * @param evt bei Klick
+     */
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        //im Prinzip wie oben
+        speichern(jTextArea2.getText());
+
+        rück = zahl;
+        zahl++;
+        int currentCaretPosition = jTextArea1.getCaretPosition();
+
+        //um Verwendbarkeit auf Server sicherzustellen, wird kein Pfad verwendet, sonder angenommen, die Datei ist im selben Ordner oder einem Unterordner davon
+        JTextField name = new JTextField("maus-maus-3.ogg");
+        JTextField breite = new JTextField("250");
+        JTextField höhe = new JTextField("250");
+        JCheckBox checkbox = new JCheckBox("Standbild verwenden?");
+
+        Object[] message = {"Name des Videos (mit Dateiendung):", name, "Breite in Pixeln:", breite, "Höhe in Pixeln:", höhe, checkbox};
+        JOptionPane pane = new JOptionPane(message,
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.OK_CANCEL_OPTION);
+        pane.createDialog(null, "Video aus Datei einfügen").setVisible(true);
+        String eingabe = "";
+        String vid;
+        String typ = null;
+        while (typ == null) {
+            if (name.getText().contains(".mp4")) {
+                typ = "mp4";
+            }
+            if (name.getText().contains(".ogg")) {
+                typ = "ogg";
+            }
+            if (typ == null) {
+                name.setText(JOptionPane.showInputDialog(null, "Eingegebenes Video hat nicht unterstützten Dateityp. Bitte erneut eingeben.",
+                        "Fehler bei der Eingabe"));
+            }
+        }
+        String poster = null;
+        if (checkbox.isSelected()) {
+
+            poster = JOptionPane.showInputDialog(null, "Name des Standbildes eingeben.",
+                    "Hallo.jpg");
+
+        }
+        vid = (char) 10 + "<video " + (char) 10 + "width=\"" + breite.getText() + "\" height=\"" + höhe.getText() + "\"" + (char) 10;
+        if (poster != null) {
+            vid = vid + "poster=\"" + poster + "\"" + (char) 10;
+        }
+        vid = vid + " autobuffer controls>" + (char) 10 + "<source src=\"" + name.getText() + "\" type=\"video/" + typ + "\">" + (char) 10 + "</video>" + (char) 10 + "<!-- Definition eines Videofensters in der Webseite mit Breite bei width und Höhe bei height jew. in Pixeln -->" + (char) 10
+                + "<!-- optional Standbild mit Name und Dateiendung -->"
+                + (char) 10 + "<!-- autobuffer, um durch Puffer ruckelfrei wiederzugeben, controls sind die Kontrollen -->" + (char) 10 + "<!-- Name/Quelle der Datei, immer mit Endung! -->" + (char) 10 + "<!-- type Typ, also mp4, ogg oder webmv und endtag -->" + (char) 10
+                + "<!-- Für Informationen zu Einbindung und Kompatibilität von HTML-5-Videos, siehe http://www.html5rocks.com/de/tutorials/video/basics/ -->";
+
+        jTextArea2.setText(einfueg(jTextArea2.getText(), jTextArea1.getText().length(), vid, currentCaretPosition));
+        jEditorPane1.setText(jTextArea2.getText());
+
+
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    /**
+     * Link einfügen
+     *
+     * @param evt
+     */
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        //Einlesen von Adresse und Anzeigetext
+        int currentCaretPosition = jTextArea1.getCaretPosition();
+        JTextField anzeige = new JTextField();
+        JTextField adresse = new JTextField();
+        Object[] message = {"Anzuzeigender Text:", anzeige,
+            "Webadresse:", adresse};
+        adresse.setText("http://");
+        JOptionPane pane = new JOptionPane(message,
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.OK_CANCEL_OPTION);
+        pane.createDialog(null, "Link einfügen").setVisible(true);
+        String Paste = null;
+        String Link = adresse.getText(), Ansicht = anzeige.getText();
+        int zahl = 0;
+        while (!urlExists(Link) && zahl < 2) {
+            Link = JOptionPane.showInputDialog(null, "Adresse konnte nicht bestätigt werden. Bitte geben Sie die Adresse erneut ein. Bitte achten Sie auf http:// und www.",
+                    "Link nicht verfügbar",
+                    JOptionPane.PLAIN_MESSAGE);
+            zahl++;
+        }
+        //zusammensetzen des Linkbefehles
+        Paste = "<a href=\"" + Link + "\">" + Ansicht + "</a><!-- in die Anführungszeichen die Url, wie z.B. http://www.google.de --><!-- Danach den Text, der angezeigt werden soll -->";
+
+        speichern(jTextArea2.getText());
+
+        rück = zahl;
+        zahl++;
+        final String Ausgabe = einfueg(jTextArea2.getText(), jTextArea1.getText().length(), Paste, currentCaretPosition);
+
+        jTextArea2.setText(Ausgabe);
+        jEditorPane1.setText(Ausgabe);
+        geöffnet = true;
+        //Anzeigetext muss im jTextArea1 stehen, <a></a> ist eigentlich Befehl mit Start-und Endtag, wird hier aber anders behandelt
+        //(benutzerfreundlichere Eingabe)
+        jTextArea1.insert(anzeige.getText(), currentCaretPosition);
+
+
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    /**
+     * Funktion abgeschafft
+     *
+     * @param evt
+     */
+    private void jTextArea2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextArea2KeyTyped
+    /**
+     * Eingabe in jTextArea2 von Nutzer wird, wenn Text ist, ins jTextArea1
+     * übernommen
+     *
+     * @param evt
+     */
+    private void jTextArea2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyReleased
+        // TODO add your handling code here:
+        //Vorschau aktualisieren
+        jEditorPane1.setText("" + jTextArea2.getText());
+        String alles = jTextArea2.getText();
+        //sonst Probleme mit DocumentListener
+        geöffnet = true;
+        jTextArea1.setText("");
+        //alles, was nicht in tag liegt (s.o.), wird als Text übernommen
+        boolean text = true;
+        for (int i = 0; i < alles.length(); i++) {
+            geöffnet = true;
+            if (alles.charAt(i) == '<') {
+                text = false;
+            }
+            if (text && !(jTextArea2.getText().charAt(i) == (char) 10)) {
+                jTextArea1.append("" + alles.charAt(i));
+
+            }
+            if (alles.charAt(i) == '>') {
+                text = true;
+            }
+
+        }
+        geöffnet = false;
+    }//GEN-LAST:event_jTextArea2KeyReleased
+    /**
+     * die Titel-Methode
+     *
+     * @param evt
+     */
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        //Seitentitel
+        String altertitel = "";
+
+        String hilf = JOptionPane.showInputDialog(null, "<html>Bitte einen Seitentitel eingeben. Dieser wird im Browserfenster als Tabname und von Suchmaschinen angezeigt.</html>", "Seitentitel", JOptionPane.OK_OPTION);
+
+        final String test = new String(hilf);
+        String rück = "";
+        if (jTextArea2.getText().indexOf("<title>") == -1) {
+            //nach <head> tag <title> einfügen
+            for (int i = 0; i < jTextArea2.getText().indexOf("<head>") + 6; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+
+            rück = rück + "<title>" + hilf + "</title><!-- HTML-Seitentitel -->";
+
+            for (int i = jTextArea2.getText().indexOf("<head>") + 6; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            geöffnet = true;
+            //Seitentitel muss in jTextArea1 stehen (Befehl mit Start-und Endtag)
+            jTextArea1.setText(test + jTextArea1.getText());
+        } else {
+            for (int i = 0; i < jTextArea2.getText().indexOf("<head>") + 6; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            rück = rück + "<title>" + test;
+            for (int i = jTextArea2.getText().indexOf("</title>"); i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            altertitel = jTextArea2.getText().substring(jTextArea2.getText().indexOf("<title>") + 7, jTextArea2.getText().indexOf("</title>"));
+
+            jTextArea1.setText("" + test + jTextArea1.getText().substring(jTextArea1.getText().indexOf(altertitel) + altertitel.length()));
+        }
+
+        jTextArea2.setText(rück);
+        jEditorPane1.setText("" + jTextArea2.getText());
+
+
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setMultiSelectionEnabled(false);
+        fc.setCurrentDirectory(new File(System.getProperty("user.home")));  // Setzt das Startverzeichnis
+        FileFilter filter = new FileNameExtensionFilter("Webseite", "html");
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.addChoosableFileFilter(filter);
+
+        if (fc.showDialog(null, "Datei öffnen") == JFileChooser.APPROVE_OPTION) {
+
+            try {
+
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(
+                                new FileInputStream(fc.getSelectedFile()), "UTF8"));
+
+                //Datei zeilenweise auslesen
+                String zeile;
+                zeile = br.readLine();
+                String alles = "" + zeile;
+                while (zeile != null) {
+
+                    zeile = br.readLine();
+                    if (zeile != null) {
+                        alles = alles + zeile;
+                    }
+                }
+
+                jTextArea2.setText(alles);
+                jEditorPane1.setText(alles);
+                geöffnet = true;
+                //in jTextArea1 alles außer tags übernehmen
+                jTextArea1.setText("");
+                boolean text = true;
+                for (int i = 0; i < alles.length(); i++) {
+                    geöffnet = true;
+                    if (alles.charAt(i) == '<') {
+                        text = false;
+                    }
+                    if (text && !(jTextArea2.getText().charAt(i) == (char) 10)) {
+                        jTextArea1.append("" + alles.charAt(i));
+
+                    }
+                    if (alles.charAt(i) == '>') {
+                        text = true;
+                    }
+
+                }
+                geöffnet = false;
+                letzterOrt = fc.getSelectedFile().toString();
+                br.close();
+            } catch (IOException e) {
+            }
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         //So öffnen Browser Dateien: "file:///" und Pfad
+        Desktop desktop = Desktop.getDesktop();
+        URI uri = null;
+        File index = new File("hilfe/index.html");
+        String echt = index.getAbsolutePath();
+        String ort="";
+        for(int i=0;i<echt.length();i++){
+            if(echt.charAt(i)==(char) 92)
+                ort = ort + "/";
+            else
+                ort = ort + echt.charAt(i);
+                }
+        try {
+            uri = new URI("file:///" + ort);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            //temp-File mit Standardbrowser öffnen
+            desktop.browse(uri);
+        } catch (IOException ex) {
+            Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        JTextField Autor = new JTextField();
+        Autor.setText("Autor1,Autor2...");
+        JTextField keys = new JTextField();
+        keys.setText("Schlüsselwort1,Schlüsselwort2...");
+        JTextField descr = new JTextField();
+        descr.setText("Eine einfache von Basic HTML Developer erstellte Webseite.");
+        Object[] message = {"Autor der Webseite:", Autor,
+            "Schlüsselwörter für Suchmaschinen:", keys, "Kurzbeschreibung für Suchmaschinen:", descr};
+
+        JOptionPane pane = new JOptionPane(message,
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.OK_CANCEL_OPTION);
+        pane.createDialog(null, "Link einfügen").setVisible(true);
+        String rück = "";
+
+        if (jTextArea2.getText().indexOf("<meta name = \"description\"") == -1) {
+            //nach <head> tags mit <meta> einfügen
+            for (int i = 0; i < jTextArea2.getText().indexOf("<head>") + 6; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+
+            rück = rück + "<meta name = \"author\" content=\"" + Autor.getText() + "\">";
+            rück = rück + "<meta name = \"keywords\" content=\"" + keys.getText() + "\">";
+            rück = rück + "<meta name = \"description\" content=\"" + descr.getText() + "\"><!-- Metadaten der HTML-Seite: Autor, Schlüsselwörter für Suchmaschinen, Kurzbeschreibung für Suchmaschinen-->";
+
+            for (int i = jTextArea2.getText().indexOf("<head>") + 6; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            geöffnet = true;
+            //Seitentitel muss in jTextArea1 stehen (Befehl mit Start-und Endtag)
+
+        } else {
+            for (int i = 0; i < jTextArea2.getText().indexOf("<head>") + 6; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            rück = rück + "<meta name = \"author\" content=\"" + Autor.getText() + "\">";
+            rück = rück + "<meta name = \"keywords\" content=\"" + keys.getText() + "\">";
+            rück = rück + "<meta name = \"description\" content=\"" + descr.getText() + "\">" + (char) 10 + "<!-- Metadaten der HTML-Seite: Autor, Schlüsselwörter für Suchmaschinen, Kurzbeschreibung für Suchmaschinen-->" + (char) 10;
+            int vonda = jTextArea2.getText().indexOf("<meta name = \"description\"");
+
+            while (jTextArea2.getText().charAt(vonda) != '>') {
+                if (jTextArea2.getText().charAt(vonda) != '>') {
+                    vonda++;
+                }
+            }
+
+            for (int i = vonda + 1; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+        }
+
+        jTextArea2.setText(rück);
+        jEditorPane1.setText("" + jTextArea2.getText());
+
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        String hilf = "<!--" + JOptionPane.showInputDialog(null, "HTML-Kommentar eingeben", "Kommentar einfügen", JOptionPane.OK_OPTION) + "-->";
+        final String Ausgabe = einfueg(jTextArea2.getText(), jTextArea1.getText().length(), hilf, jTextArea1.getCaretPosition());
+
+        jTextArea2.setText(Ausgabe);
+        jEditorPane1.setText(Ausgabe);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        String altertitel = "";
+
+        String hilf = JOptionPane.showInputDialog(null, "<html>Name der Hintergrunddatei oder relativer Pfad (GIF,PNG,JPG-Dateien)</html>", "Seitenhintergrund", JOptionPane.OK_OPTION);
+
+        final String test = new String(hilf);
+        String rück = "";
+        if (jTextArea2.getText().indexOf("<body ") == -1) {
+            //nach <head> tag <title> einfügen
+            for (int i = 0; i < jTextArea2.getText().indexOf("<body>") + 5; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+
+            rück = rück + " background = \"" + test + "\"><!-- Seitenhintergrund: Bild aus Datei (Bild muss im selben Ordner wie HTML-Quellcode sein!) -->" + (char) 10;
+
+            for (int i = jTextArea2.getText().indexOf("<body>") + 6; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+
+        } else {
+            for (int i = 0; i < jTextArea2.getText().indexOf("<body ") + 6; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            rück = rück + "background = \"" + test + "\"><!-- Seitenhintergrund: Bild aus Datei (Bild muss im selben Ordner wie HTML-Quellcode sein!) -->" + (char) 10;
+            int vonda = jTextArea2.getText().indexOf("<body ");
+
+            while (jTextArea2.getText().charAt(vonda) != '>') {
+                if (jTextArea2.getText().charAt(vonda) != '>') {
+                    vonda++;
+                }
+            }
+
+            for (int i = vonda + 1; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+        }
+
+        jTextArea2.setText(rück);
+        jEditorPane1.setText("" + jTextArea2.getText());
+        BackgroundAusDatei = true;
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:        
+        JButton Hintergrundfarbe = new JButton("<html><head><meta charset = \"utf-8\"><body>Farbe wählen</body></html>");
+        Hintergrundfarbe.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Color your_color = Color.WHITE;
+                your_color = JColorChooser.showDialog(null, "Farbauswahl", null);
+
+                Texthintergrund = "#" + Integer.toHexString(your_color.getRGB()).substring(2);
+
+            }
+        });
+        JButton Textfarbe = new JButton("<html><head><meta charset = \"utf-8\"><body>Farbe wählen</body></html>");
+        Textfarbe.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Color your_color = Color.BLACK;
+                your_color = JColorChooser.showDialog(null, "Farbauswahl", null);
+
+                Textf = "#" + Integer.toHexString(your_color.getRGB()).substring(2);
+
+            }
+        });
+        JButton Link1 = new JButton("<html><head><meta charset = \"utf-8\"><body>Farbe wählen</body></html>");
+        Link1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Color your_color = Color.BLUE;
+                your_color = JColorChooser.showDialog(null, "Farbauswahl", null);
+
+                Linkf = "#" + Integer.toHexString(your_color.getRGB()).substring(2);
+
+            }
+        });
+        JButton Link2 = new JButton("<html><head><meta charset = \"utf-8\"><body>Farbe wählen</body></html>");
+        Link2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Color your_color = Color.BLUE;
+                your_color = JColorChooser.showDialog(null, "Farbauswahl", null);
+
+                Link2f = "#" + Integer.toHexString(your_color.getRGB()).substring(2);
+
+            }
+        });
+        Object[] message = {"Hintergrundfarbe:", Hintergrundfarbe, "Textfarbe:", Textfarbe, "Farbe nicht angeklickter Links:", Link1, "Farbe angeklickter Links:", Link2};
+
+        JOptionPane pane = new JOptionPane(message,
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.OK_CANCEL_OPTION);
+        pane.createDialog(null, "Link einfügen").setVisible(true);
+
+        final String test = "";
+        String rück = "";
+        if (jTextArea2.getText().indexOf("<body ") == -1) {
+
+            for (int i = 0; i < jTextArea2.getText().indexOf("<body>") + 5; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+
+            rück = rück + " bgcolor = \"" + Texthintergrund + "\" text = \"" + Textf + "\" link = \"" + Linkf + "\" vlink = \"" + Link2f + "\">" + (char) 10 + "<!-- Seitenhintergrundformatierungen: Hintergrundfarbe (Standard: weiß), Textfarbe (Standard: Schwarz), Farbe unbesuchter und besuchter Links (Standard:Blau) als hexadezimaler Farbcode -->" + (char) 10;
+
+            for (int i = jTextArea2.getText().indexOf("<body>") + 6; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+
+        } else {
+            for (int i = 0; i < jTextArea2.getText().indexOf("<body ") + 6; i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+            rück = rück + " bgcolor = \"" + Texthintergrund + "\" text = \"" + Textf + "\" link = \"" + Linkf + "\" vlink = \"" + Link2f + "\">" + (char) 10 + "<!-- Seitenhintergrundformatierungen: Hintergrundfarbe (Standard: weiß), Textfarbe (Standard: Schwarz), Farbe unbesuchter und besuchter Links (Standard:Blau) als hexadezimaler Farbcode -->" + (char) 10;
+            int vonda = jTextArea2.getText().indexOf("<body ");
+
+            while (jTextArea2.getText().charAt(vonda) != '>') {
+                if (jTextArea2.getText().charAt(vonda) != '>') {
+                    vonda++;
+                }
+            }
+
+            for (int i = vonda + 1; i < jTextArea2.getText().length(); i++) {
+                rück = rück + jTextArea2.getText().charAt(i);
+            }
+        }
+
+        jTextArea2.setText(rück);
+        jEditorPane1.setText("" + jTextArea2.getText());
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        // TODO add your handling code here:
+        Desktop desktop = Desktop.getDesktop();
+        URI uri = null;
+        File index = new File("hilfe/index.html");
+        String echt = index.getAbsolutePath();
+        String ort="";
+        for(int i=0;i<echt.length();i++){
+            if(echt.charAt(i)==(char) 92)
+                ort = ort + "/";
+            else
+                ort = ort + echt.charAt(i);
+                }
+        try {
+            uri = new URI("file:///" + ort);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            //temp-File mit Standardbrowser öffnen
+            desktop.browse(uri);
+        } catch (IOException ex) {
+            Logger.getLogger(Basic_HTML_DeveloperView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+    /**
+     * Dateien mit UTF-8 speichern, von Quelle
+     *
+     * @param textFileName Dateispeicherort
+     * @param content Dateiinhalt
+     * @throws IOException
+     */
+    void writeUTF8TextFileContent(String textFileName, String content) throws IOException {
+        String line, lineFeed = new String("\n"); // Unix LineFeed
+        //Dateiinhalt speichern
+        BufferedReader in = new BufferedReader(new StringReader(content));
+        if (!textFileName.endsWith(".html")) {
+            textFileName = textFileName + ".html";
+        }
+        //Writer mit UTF-8-Codierung
+        Writer w = new OutputStreamWriter(new FileOutputStream(textFileName), "UTF8");
+        //Schreiber
+        BufferedWriter out = new BufferedWriter(w);
+        while ((line = in.readLine()) != null) {
+            //schreiben
+            out.write(line);
+            out.write(lineFeed);
+        }
+        out.close();
+        in.close();
+    }
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToolBar Basic_HTML_Editor_Toolbar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JProgressBar progressBar;
+    private javax.swing.JLabel statusAnimationLabel;
+    private javax.swing.JLabel statusMessageLabel;
+    private javax.swing.JPanel statusPanel;
+    // End of variables declaration//GEN-END:variables
+    private final Timer messageTimer;
+    private final Timer busyIconTimer;
+    private final Icon idleIcon;
+    private final Icon[] busyIcons = new Icon[15];
+    private int busyIconIndex = 0;
+    private JDialog aboutBox;
+
+    /**
+     * Speichert aktuellen Vorgang im Wiederherstellungs-Array content
+     *
+     * @param hilf3, content(static String[]), zahl (static int)
+     * @return content(static String[]), zahl (static int) zur weiteren Nutzung
+     */
+    private void speichern(String hilf3) {
+        String[] temp = new String[zahl];
+        for (int i = 0; i < zahl - 1; i++) {
+            temp[i] = content[i];
+
+        }
+
+        temp[zahl - 1] = hilf3;
+        content = temp;
+
+    }
+    static String Hintergrund = "#" + Integer.toHexString(Color.WHITE.getRGB()).substring(2);
+    static String title = "";
+    MyDocListener Text = new MyDocListener();
+
+    //DocumentListeners für Eingabe, Löschen und Formatierungen
+    private class MyDocListener implements DocumentListener {
+
+        /**
+         * gibt an, was passiert, wenn ein Buchstabe in das Area1 getippt wird
+         *
+         * @param e Dokument des jTextArea1 für ActionListener
+         */
+        public void insertUpdate(DocumentEvent e) {
+
+            //Sonderfall: erster Buchstabe
+            if (geöffnet) {
+                geöffnet = false;
+            } else {
+
+                if (jTextArea1.getText().length() == 1) {
+
+                    jTextArea2.setText(Kopf + jTextArea1.getText().charAt(0) + Ende);
+                    jEditorPane1.setText(jTextArea2.getText());
+                } else {
+                    //herausfinden, wo eingetippt wurde
+                    int pos = e.getOffset() - 1;
+                    boolean umbruch = false;
+                    if (jTextArea1.getText().charAt(pos + 1) == '<' || jTextArea1.getText().charAt(pos + 1) == '>') {
+                        JOptionPane.showMessageDialog(null,
+                                "Die Zeichen \"<\" und \">\" werden leider nicht unterstützt. Bitte wieder löschen!",
+                                "Eingabefehler",
+                                JOptionPane.ERROR_MESSAGE);
+                        geöffnet = true;
+                    } else {
+                        //zur Sicherheit
+                        if (!jTextArea2.getText().equals("")) {
+                            //bei Zeilenumbruch, funktioniert aber nicht richtig
+                            if (pos < jTextArea1.getText().length() - 1) {
+                                if (jTextArea1.getText().charAt(pos + 1) == (char) 10) {
+                                    umbruch = true;
+                                }
+                            } else if (jTextArea1.getText().charAt(pos) == (char) 10) {
+                                umbruch = true;
+                            }
+
+                            //gutes altes Flaggenprinzip
+                            boolean gefunden = false;
+                            if (pos == -1) {
+                                pos++;
+                            }
+                            for (int i = -1; i <= pos; i++) {
+                                if (i == -1) {
+                                    i++;
+                                }
+
+                                if (jTextArea2.getText().charAt(i) == '<') {
+
+                                    gefunden = true;
+                                }
+                                if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                                    pos++;
+                                }
+                                if (jTextArea2.getText().charAt(i) == '>') {
+                                    gefunden = false;
+
+                                }
+                            }
+
+                            //HTML-Umbruch durch <br>
+                            if (umbruch) {
+
+                                jTextArea2.insert((char) 10+"<br><!-- Manueller html-Umbruch --> ", pos + 1);
+                            } //sonst nur den eingegebenen Buchstaben einfügen
+                            else {
+                                if (e.getOffset() == 0) {
+                                    pos--;
+                                }
+
+                                jTextArea2.insert(jTextArea1.getText().charAt(e.getOffset()) + "", pos + 1);
+                            }
+
+                            //anzeigen
+                            jEditorPane1.setText(jTextArea2.getText());
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * was passiert, wenn ein Buchstabe entfernt wird
+         *
+         * @param e Dokument des jTextArea1 für ActionListener
+         */
+        public void removeUpdate(DocumentEvent e) {
+            //Flaggenprinzip
+            //Ablauf sehr ähnlich zu insertUpdate
+            if (geöffnet) {
+                geöffnet = false;
+            } else {
+                if (e.getOffset() == jTextArea1.getText().length()) {
+
+                    boolean keintext = true;
+                    int j = e.getOffset();
+                    boolean gefunden = false;
+                    String neu = "";
+                    for (int i = 0; i < j; i++) {
+                        if (jTextArea2.getText().charAt(i) == '<') {
+
+                            gefunden = true;
+                        }
+                        if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                            j++;
+                        }
+                        if (jTextArea2.getText().charAt(i) == '>') {
+                            gefunden = false;
+
+                        }
+                        neu = neu + jTextArea2.getText().charAt(i);
+
+                    }
+
+                    for (int i = j + 1; i < jTextArea2.getText().length(); i++) {
+                        neu = neu + jTextArea2.getText().charAt(i);
+
+                    }
+                    jTextArea2.setText(neu);
+                    jEditorPane1.setText(neu);
+                } else {
+                    boolean umbrechen = false;
+                    int pos = e.getOffset();
+                    if (pos <= 0) {
+                        pos++;
+                        umbrechen = true;
+                    }
+                    //überprüfen ob Zeilenumbruch zu löschen ist
+                    boolean umbruch = false;
+                    if (!jTextArea2.getText().equals("")) {
+                        if (pos > 1) {
+                            if (jTextArea1.getText().charAt(pos - 1) == (char) 10) {
+                                umbruch = true;
+                            }
+                        }
+                        //Suchen der Position
+                        boolean gefunden = false;
+                        for (int i = 0; i < pos; i++) {
+                            if (jTextArea2.getText().charAt(i) == '<') {
+
+                                gefunden = true;
+                            }
+                            if (gefunden || jTextArea2.getText().charAt(i) == (char) 10) {
+                                pos++;
+                            }
+                            if (jTextArea2.getText().charAt(i) == '>') {
+                                gefunden = false;
+
+                            }
+                        }
+                        //Sonderfall: erster Buchstabe
+                        if (pos > 0) {
+                            if (umbrechen) {
+                                pos--;
+                            }
+                        }
+                        String hilf = jTextArea2.getText();
+                        String rück = "";
+                        //alles außer Umbruch übernehmen
+                        if (umbruch) {
+                            for (int i = 0; i < pos + 1; i++) {
+                                rück = rück + hilf.charAt(i);
+                            }
+                            for (int i = pos + 5; i < hilf.length(); i++) {
+                                rück = rück + hilf.charAt(i);
+
+                            }
+                            //sonst alles übernehmen außer gelöschtem Buchstaben
+                        } else {
+                            for (int i = 0; i < pos; i++) {
+                                rück = rück + hilf.charAt(i);
+
+                            }
+                            for (int i = pos + 1; i < hilf.length(); i++) {
+                                rück = rück + hilf.charAt(i);
+
+                            }
+                        }
+                        //anzeigen
+
+                        jTextArea2.setText("" + rück);
+                        jEditorPane1.setText(jTextArea2.getText());
+                    }
+                }
+            }
+
+        }
+
+        /**
+         * ein Void, der nie ausgeführt wird
+         *
+         * @param e das Document des jTextArea1
+         */
+        public void changedUpdate(DocumentEvent e) {
+            //wird niemals auslösen, ich vernachlässige das hier (nur bei StyledDocuments, aber das Area ist ein PlainDocument)
+            //falls er doch eintritt
+            //um den Mist rückgängig machen zu können
+            speichern(jTextArea2.getText());
+
+            rück = zahl;
+            zahl++;
+            //Fehlermeldung ausgeben
+            JOptionPane.showMessageDialog(null, "Dieser Fall hätte nicht auftreten dürfen.", "Es tut uns leid.", JOptionPane.WARNING_MESSAGE);
+        }
+    };
+
+    /**
+     * prüft, ob Webseite verfügbar; von Quelle, funktioniert nicht immer
+     *
+     * @param urlString
+     * @return
+     */
+    public static boolean urlExists(String urlString) {
+        InputStream is = null;
+        try {
+            URL url = new URL(urlString);
+            URLConnection con = url.openConnection();
+
+            is = con.getInputStream();
+            return true;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+
+    }
+
+    //importiert, für Tabelleneingabe nötig
+    class EditableTableModel extends AbstractTableModel {
+
+        String[] columnTitles;
+        Object[][] dataEntries;
+        int rowCount;
+
+        public EditableTableModel(String[] columnTitles, Object[][] dataEntries) {
+            this.columnTitles = columnTitles;
+            this.dataEntries = dataEntries;
+        }
+
+        public int getRowCount() {
+            return dataEntries.length;
+        }
+
+        public int getColumnCount() {
+            return columnTitles.length;
+        }
+
+        public Object getValueAt(int row, int column) {
+            return dataEntries[row][column];
+        }
+
+        public String getColumnName(int column) {
+            return columnTitles[column];
+        }
+
+        public Class getColumnClass(int column) {
+            return getValueAt(0, column).getClass();
+        }
+
+        public boolean isCellEditable(int row, int column) {
+            return true;
+        }
+
+        public void setValueAt(Object value, int row, int column) {
+            dataEntries[row][column] = value;
+        }
+    }
+}

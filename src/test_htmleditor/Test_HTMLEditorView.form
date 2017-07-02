@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.8">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPanel" name="mainPanel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="mainPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jToolBar1" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jScrollPane1" alignment="0" pref="632" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="jScrollPane4" pref="354" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Component id="jToolBar1" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jScrollPane1" min="-2" pref="187" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" pref="399" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="jScrollPane4" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="jScrollPane2" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="jTextArea2">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="lineWrap" type="boolean" value="true"/>
+                <Property name="rows" type="int" value="5"/>
+                <Property name="text" type="java.lang.String" resourceKey="jTextArea2.text"/>
+                <Property name="wrapStyleWord" type="boolean" value="true"/>
+                <Property name="name" type="java.lang.String" value="jTextArea2" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextArea2KeyTyped"/>
+              </Events>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jLabel1.text"/>
+            <Property name="name" type="java.lang.String" value="jLabel1" noResource="true"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTextArea" name="jTextArea1">
+              <Properties>
+                <Property name="columns" type="int" value="20"/>
+                <Property name="lineWrap" type="boolean" value="true"/>
+                <Property name="rows" type="int" value="5"/>
+                <Property name="wrapStyleWord" type="boolean" value="true"/>
+                <Property name="name" type="java.lang.String" value="jTextArea1" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="jTextArea1.getDocument().addDocumentListener(new MyDocListener());&#xa;    jTextArea1.getDocument().putProperty(&quot;name&quot;, &quot;Text Area 1&quot;);"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="jScrollPane4" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JEditorPane" name="jEditorPane1">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jEditorPane1" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jEditorPane1.setEditable(false);&#xa;jEditorPane1.setContentType(&quot;text/html&quot;);"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jLabel2.text"/>
+            <Property name="name" type="java.lang.String" value="jLabel2" noResource="true"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jLabel3.text"/>
+            <Property name="name" type="java.lang.String" value="jLabel3" noResource="true"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JToolBar" name="jToolBar1">
+          <Properties>
+            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="name" type="java.lang.String" value="jToolBar1" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="// Schaltfl&#xe4;chen werden erzeugt und unserer JToolBar hinzugef&#xfc;gt&#xa;        JButton ExitButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Ende = new ImageIcon(&quot;icons/Ende.png&quot;);&#xa;        ExitButton.setIcon(icon_Ende);&#xa;        ExitButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;                System.exit(0);&#xa;            }&#xa;        });;&#xa;        JButton BrowserButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon3 = new ImageIcon(&quot;icons/Vorschau.jpg&quot;);&#xa;        BrowserButton.setIcon(icon3);&#xa;        BrowserButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;&#xa;                String Datei;&#xa;&#xa;                try {&#xa;                    //um Desktop.browse benutzen zu k&#xf6;nnen&#xa;                    Desktop desktop = Desktop.getDesktop();&#xa;            //tempor&#xe4;re Datei erstellen, diese ist vom Typ HTML und der Anfang des Namens ist BHD (Initialen des Programmnamens)&#xa;                    //TempFiles werden nach Programmende entfernt&#xa;                    //TempFile wird erstellt, damit User nicht immer selbst Dateien speichern muss&#xa;                    File temp = File.createTempFile(&quot;BHD&quot;, &quot;.&quot; + &quot;html&quot;);&#xa;                    //nach Programmende Datei l&#xf6;schen&#xa;                    temp.deleteOnExit();&#xa;                    //Pfad&#xa;                    String hilfe = temp.toString();&#xa;                    //initialisieren&#xa;                    FileWriter fw = null;&#xa;                    //Schreiber erstellen&#xa;                    try {&#xa;                        fw = new FileWriter(temp);&#xa;                    } catch (IOException ex) {&#xa;                        Logger.getLogger(Test_HTMLEditorView.class.getName()).log(Level.SEVERE, null, ex);&#xa;                    }&#xa;                    //auf Schreiben in Datei vorbereiten&#xa;                    PrintWriter pw = new PrintWriter(fw);&#xa;                    //Inhalt des Area2 schreiben (=HTML-Quellcode)&#xa;                    pw.println(&quot;&quot; + jTextArea2.getText());&#xa;                    //sauber beenden&#xa;                    pw.close();&#xa;                    Datei = &quot;&quot;;&#xa;                    //URI als Pfad f&#xfc;r den Browser&#xa;                    URI uri;&#xa;                    //Umwandeln des Backslash \ in den URL-Slash /, Rest des Pfads wird &#xfc;bernommen&#xa;                    for (int i = 0; i &lt; hilfe.length(); i++) {&#xa;                        if (hilfe.charAt(i) != (char) 92) {&#xa;                            Datei = Datei + hilfe.charAt(i);&#xa;                        } else {&#xa;                            Datei = Datei + &quot;/&quot;;&#xa;                        }&#xa;                    }&#xa;&#xa;                    try {&#xa;                        //So &#xf6;ffnen Browser Dateien: &quot;file:///&quot; und Pfad&#xa;                        uri = new URI(&quot;file:///&quot; + Datei);&#xa;                        //temp-File mit Standardbrowser &#xf6;ffnen&#xa;                        desktop.browse(uri);&#xa;                    } catch (Exception oError) {&#xa;                        oError.printStackTrace();&#xa;                    }&#xa;                } catch (IOException ex) {&#xa;                    Logger.getLogger(Test_HTMLEditorView.class.getName()).log(Level.SEVERE, null, ex);&#xa;                }&#xa;            }&#xa;        });;&#xa;        JButton SpeichernButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon = new ImageIcon(&quot;icons/Speichern.png&quot;);&#xa;        SpeichernButton.setIcon(icon);&#xa;        SpeichernButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;                if (letzterOrt == null) {&#xa;                    abspeichern();&#xa;                } else {&#xa;                    String pfad;&#xa;                    //alter Ort, altes File&#xa;                    pfad = letzterOrt;&#xa;&#xa;                    //HTML-Datei an Zielort erstellen, altes File m&#xfc;sste dabei &#xfc;berschrieben werden&#xa;                    File f = new File(pfad);&#xa;&#xa;                    //Schreiberling initialisieren&#xa;                    FileWriter fw = null;&#xa;                    //Schreiber erstellen&#xa;                    try {&#xa;                        fw = new FileWriter(f);&#xa;                    } catch (IOException ex) {&#xa;                        Logger.getLogger(Test_HTMLEditorView.class.getName()).log(Level.SEVERE, null, ex);&#xa;                    }&#xa;                    //auf Schreiben in Datei vorbereiten&#xa;                    PrintWriter pw = new PrintWriter(fw);&#xa;                    //Inhalt des Area2 schreiben&#xa;                    pw.println(&quot;&quot; + jTextArea2.getText());&#xa;                    //sauber beenden&#xa;                    pw.close();&#xa;&#xa;                }&#xa;            }&#xa;        });;&#xa;        GraphicsEnvironment ge = GraphicsEnvironment.&#xa;                getLocalGraphicsEnvironment();&#xa;        String[] fonts = ge.getAvailableFontFamilyNames();&#xa;        final JComboBox FontButton = new JComboBox(fonts);&#xa;        FontButton.setRenderer(new FontCellRenderer());&#xa;        FontButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;                speichern(jTextArea2.getText());&#xa;&#xa;                r&#xfc;ck = zahl;&#xa;                zahl++;&#xa;&#xa;                GraphicsEnvironment ge = GraphicsEnvironment.&#xa;                        getLocalGraphicsEnvironment();&#xa;                String[] fonts = ge.getAvailableFontFamilyNames();&#xa;                String Schriftart = fonts[FontButton.getSelectedIndex()];&#xa;                String text1 = &quot;&lt;span style=\&quot;font-family:&quot; + Schriftart + &quot;\&quot;&gt;&quot;;&#xa;                String text2 = &quot;&lt;/span&gt;&quot;;&#xa;                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), text1, text2, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;                //Ansichten aktualisieren&#xa;                jTextArea2.setText(text);&#xa;                jEditorPane1.setText(text);&#xa;            }&#xa;        });;&#xa;        String[] gr&#xf6;&#xdf;en = new String[70];&#xa;        for (int i = 0; i &lt; 70; i++) {&#xa;            gr&#xf6;&#xdf;en[i] = i + &quot;pt&quot;;&#xa;&#xa;        }&#xa;        final JComboBox SizeButton = new JComboBox(gr&#xf6;&#xdf;en);&#xa;        SizeButton.setSelectedIndex(20);&#xa;        SizeButton.setRenderer(new FontCellRenderer());&#xa;        SizeButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;                speichern(jTextArea2.getText());&#xa;&#xa;                r&#xfc;ck = zahl;&#xa;                zahl++;&#xa;&#xa;                String[] gr&#xf6;&#xdf;en = new String[70];&#xa;                for (int i = 0; i &lt; 70; i++) {&#xa;                    gr&#xf6;&#xdf;en[i] = i + &quot;pt&quot;;&#xa;&#xa;                }&#xa;                String gr&#xf6;&#xdf;e = gr&#xf6;&#xdf;en[SizeButton.getSelectedIndex()];&#xa;                String text1 = &quot;&lt;span style=\&quot;font-size:&quot; + gr&#xf6;&#xdf;e + &quot;\&quot;&gt;&quot;;&#xa;                String text2 = &quot;&lt;/span&gt;&quot;;&#xa;                String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), text1, text2, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;                //Ansichten aktualisieren&#xa;                jTextArea2.setText(text);&#xa;                jEditorPane1.setText(text);&#xa;            }&#xa;        });;&#xa;    JButton FettButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Fett = new ImageIcon(&quot;icons/Fett.png&quot;);&#xa;        FettButton.setIcon(icon_Fett);&#xa;        FettButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;            String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;b&gt;&quot;, &quot;&lt;/b&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;                //Ansichten aktualisieren&#xa;                jTextArea2.setText(text);&#xa;                jEditorPane1.setText(text);    &#xa;                &#xa;            }&#xa;        });;&#xa;        JButton KursivButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Kursiv = new ImageIcon(&quot;icons/Kursiv.png&quot;);&#xa;        KursivButton.setIcon(icon_Kursiv);&#xa;        KursivButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;            String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;i&gt;&quot;, &quot;&lt;/i&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;                //Ansichten aktualisieren&#xa;                jTextArea2.setText(text);&#xa;                jEditorPane1.setText(text);    &#xa;                &#xa;            }&#xa;        });;&#xa;        final JComboBox Ueberschrift= new JComboBox(new String[] { &quot;(keine Aktion)&quot;, &quot;&#xdc;berschrift 1&quot;, &quot;&#xdc;berschrift 2&quot;, &quot;&#xdc;berschrift 3&quot;, &quot;&#xdc;berschrift 4&quot;, &quot;&#xdc;berschrift 5&quot;, &quot;&#xdc;berschrift 6&quot; });&#xa;        Ueberschrift.setSelectedIndex(0);&#xa;        &#xa;        Ueberschrift.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;    //Dieser Button liest den markierten Teil der Area aus und setzt ihn im Area2 in h-Bl&#xf6;cke&#xa;        //herausfinden, welche &#xdc;berschriftengr&#xf6;&#xdf;e denn gew&#xfc;nscht wird&#xa;        int h = Ueberschrift.getSelectedIndex();&#xa;        //&#xdc;berschrift wird dann erstellt, wenn nicht &quot;(keine Aktion)&quot; ausgew&#xe4;hlt ist und jTextArea2 nicht leer ist&#xa;        if (h != 0 &amp;&amp; !jTextArea2.getText().equals(&quot;&quot;)) {&#xa;            //zur Sicherheit in Spezialf&#xe4;llen&#xa;            String hilf3 = jTextArea2.getText() + &quot; &quot;;&#xa;            //Best&#xfc;cken der Wiederherstellungsfunktion&#xa;            speichern(hilf3);&#xa;            r&#xfc;ck = zahl;&#xa;            zahl++;&#xa;            String text1 = &quot;&lt;h&quot; + h + &quot;&gt;&quot;;&#xa;            String text2 = &quot;&lt;/h&quot; + h + &quot;&gt;&quot;;&#xa;            String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), text1, text2, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;            //Ansichten aktualisieren&#xa;            jTextArea2.setText(text);&#xa;            jEditorPane1.setText(text);&#xa;        }&#xa;            }&#xa;        });;&#xa;&#xa;        JButton UnterstrichButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Unterstrich = new ImageIcon(&quot;icons/Unterstrich.png&quot;);&#xa;        UnterstrichButton.setIcon(icon_Unterstrich);&#xa;        UnterstrichButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;            String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;u&gt;&quot;, &quot;&lt;/u&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;                //Ansichten aktualisieren&#xa;                jTextArea2.setText(text);&#xa;                jEditorPane1.setText(text);    &#xa;                &#xa;            }&#xa;        });;&#xa;        JButton &#xd6;ffnenButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_&#xd6;ffnen = new ImageIcon(&quot;icons/&#xd6;ffnen.png&quot;);&#xa;        &#xd6;ffnenButton.setIcon(icon_&#xd6;ffnen);&#xa;        &#xd6;ffnenButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;        JFileChooser fc = new JFileChooser();&#xa;        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);&#xa;        fc.setMultiSelectionEnabled(false);&#xa;        fc.setCurrentDirectory(new File(System.getProperty(&quot;user.home&quot;)));  // Setzt das Startverzeichnis&#xa;        FileFilter filter = new FileNameExtensionFilter(&quot;Webseite&quot;, &quot;html&quot;);&#xa;        fc.setAcceptAllFileFilterUsed(false);&#xa;        fc.addChoosableFileFilter(filter);&#xa;        &#xa;        if (fc.showDialog(null, &quot;Datei &#xf6;ffnen&quot;) == JFileChooser.APPROVE_OPTION) {&#xa;            FileReader fr;&#xa;            BufferedReader br;&#xa;            try {&#xa;                fr = new FileReader(fc.getSelectedFile());&#xa;                br = new BufferedReader(fr);&#xa;&#xa;                // Textzeilen der Datei einlesen und auf Konsole ausgeben:&#xa;                String zeile;&#xa;                zeile = br.readLine();&#xa;                String alles = &quot;&quot; + zeile;&#xa;                while (zeile != null) {&#xa;&#xa;                    zeile = br.readLine();&#xa;                    if (zeile != null) {&#xa;                        alles = alles + zeile;&#xa;                    }&#xa;                }&#xa;                jTextArea2.setText(alles);&#xa;                jEditorPane1.setText(alles);&#xa;                ge&#xf6;ffnet = true;&#xa;                jTextArea1.setText(&quot;&quot;);&#xa;                boolean text = true;&#xa;                for (int i = 0; i &lt; alles.length(); i++) {&#xa;                    ge&#xf6;ffnet = true;&#xa;                    if (alles.charAt(i) == &apos;&lt;&apos;) {&#xa;                        text = false;&#xa;                    }&#xa;                    if (text) {&#xa;                        jTextArea1.append(&quot;&quot; + alles.charAt(i));&#xa;&#xa;                    }&#xa;                    if (alles.charAt(i) == &apos;&gt;&apos;) {&#xa;                        text = true;&#xa;                    }&#xa;&#xa;                }&#xa;                ge&#xf6;ffnet=false;&#xa;                letzterOrt= fc.getSelectedFile().toString();&#xa;                fr.close();&#xa;            } catch (IOException e) {&#xa;                System.out.println(&quot;Fehler beim Lesen der Datei &quot; + fc.getSelectedFile().getAbsoluteFile());&#xa;                System.out.println(e.toString());&#xa;            }&#xa;        }&#xa;        }&#xa;        });;&#xa;        JButton Neu = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Neu = new ImageIcon(&quot;icons/Neu.png&quot;);&#xa;        Neu.setIcon(icon_Neu);&#xa;        Neu.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;            jTextArea1.setText(&quot;&quot;);&#xa;            jTextArea2.setText(&quot;&quot;);&#xa;            jEditorPane1.setText(&quot;&quot;);&#xa;        }&#xa;        });;&#xa;                JButton R&#xfc;ckg&#xe4;ngigButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_R&#xfc;ckg&#xe4;ngig = new ImageIcon(&quot;icons/R&#xfc;ckg&#xe4;ngig.png&quot;);&#xa;        R&#xfc;ckg&#xe4;ngigButton.setIcon(icon_R&#xfc;ckg&#xe4;ngig);&#xa;        R&#xfc;ckg&#xe4;ngigButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;// TODO add your handling code here:&#xa;        //Bedingung: jTextArea2 ist nicht leer (sonst buggt es am Anfang)&#xa;        if (!jTextArea2.getText().equals(&quot;&quot;)) {&#xa;            //wenn man &#xfc;berhaut etwas r&#xfc;ckg&#xe4;ngig machen kann&#xa;            if (r&#xfc;ck &gt; 0 &amp;&amp; !content[r&#xfc;ck - 1].equals(jTextArea2.getText())) {&#xa;                r&#xfc;ck--;&#xa;            }&#xa;            //Best&#xfc;cken des Wiederholen-Arrays&#xa;            String[] temp = new String[wieder];&#xa;            for (int i = 0; i &lt; wieder - 1; i++) {&#xa;                temp[i] = Action[i];&#xa;&#xa;            }&#xa;            //speichern des aktuellen Wertes des jTextArea2 in Array&#xa;            temp[wieder - 1] = jTextArea2.getText();&#xa;            //aktualisieren des Wiederherstellungsarrays&#xa;            Action = temp;&#xa;            //wie beim Speichern des R&#xfc;ckg&#xe4;ngig-Arrays&#xa;            Act = wieder;&#xa;            wieder++;&#xa;            //R&#xfc;cksetzen des jTextArea2&apos;s&#xa;            jTextArea2.setText(content[r&#xfc;ck]);&#xa;            jEditorPane1.setText(jTextArea2.getText());&#xa;        }&#xa;        }&#xa;        });;&#xa;                JButton ResetButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Reset = new ImageIcon(&quot;icons/Reset.png&quot;);&#xa;        ResetButton.setIcon(icon_Reset);&#xa;        ResetButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa; //einf&#xfc;gen von Pr&#xe4;ambeln in HTML-Codefenster, leeren von diesem&#xa;        String Text = jTextArea1.getText();&#xa;        //speichern des Momentanzustandes in Wiederherstellungs-Array &#xa;        speichern(jTextArea2.getText());&#xa;        //Zahlen der Gesamtzahl und der letzten Einf&#xfc;gung &#xe4;ndern&#xa;        r&#xfc;ck = zahl;&#xa;        zahl++;&#xa;        //Area leeren&#xa;        jTextArea2.setText(&quot;&quot;);&#xa;        //Pr&#xe4;ambeln&#xa;        jTextArea2.append(&quot;&lt;html&gt;&lt;head&gt;&lt;meta charset=&apos;utf8&apos;&gt;&lt;style type=&apos;text/css&apos;&gt;&lt;/style&gt;&lt;/head/&gt;&lt;body&gt;&quot;);&#xa;        //Text und Schlusspr&#xe4;ambeln einf&#xfc;gen&#xa;        jTextArea2.append(Text);&#xa;        jTextArea2.append(&quot;&lt;/body&gt;&lt;/html&gt;&quot;);&#xa;        //aktualisieren der Vorschau&#xa;        jEditorPane1.setText(jTextArea2.getText());&#xa;        //R&#xfc;cksetzen des Farbklassenz&#xe4;hlers&#xa;        k = 0;&#xa;        }&#xa;        });;&#xa;                JButton WiederholenButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_Wiederholen = new ImageIcon(&quot;icons/Wiederholen.png&quot;);&#xa;        WiederholenButton.setIcon(icon_Wiederholen);&#xa;        WiederholenButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;//Sichern des aktuellen Wertes in R&#xfc;ckg&#xe4;ngig-Array&#xa;        String hilf3 = jTextArea2.getText() + &quot; &quot;;&#xa;&#xa;        speichern(hilf3);&#xa;&#xa;        r&#xfc;ck = zahl;&#xa;        zahl++;&#xa;        //gegen Bugs&#xa;        if (Act &gt; Action.length - 1) {&#xa;            Act = Action.length - 1;&#xa;        }&#xa;        //wenn man noch etwas r&#xfc;ckg&#xe4;ngig machen kann&#xa;        if (Act &gt; 0 &amp;&amp; !Action[Act - 1].equals(jTextArea2.getText())) {&#xa;            Act--;&#xa;        }&#xa;        //Area zur&#xfc;cksetzen&#xa;        jTextArea2.setText(Action[Act]);&#xa;        jEditorPane1.setText(jTextArea2.getText());&#xa;&#xa;        }&#xa;        });;&#xa;        JButton hochgestellt = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_hochgestellt = new ImageIcon(&quot;icons/hochgestellt.png&quot;);&#xa;        hochgestellt.setIcon(icon_hochgestellt);&#xa;        hochgestellt.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;&#xa;           String text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;sup&gt;&quot;, &quot;&lt;/sup&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;&#xa;                //Ansichten aktualisieren&#xa;                jTextArea2.setText(text);&#xa;                jEditorPane1.setText(text);    &#xa;        }&#xa;        });;&#xa;        JButton nichtnummeriertButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_nichtnummeriertButton = new ImageIcon(&quot;icons/nicht_nummeriert.jpg&quot;);&#xa;        nichtnummeriertButton.setIcon(icon_nichtnummeriertButton);&#xa;        nichtnummeriertButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;&#xa;           String text=jTextArea2.getText();&#xa;        int weiter =0;&#xa;                if(!verstanden&amp;&amp;gemacht){&#xa;        weiter =  JOptionPane.showConfirmDialog(null,&#xa;                                                            &quot;Haben Sie das Prinzip verstanden?&quot;,&#xa;                                                            &quot;Item hinzuf&#xfc;gen&quot;,&#xa;                                                            JOptionPane.YES_NO_OPTION);&#xa;        if(weiter==0)&#xa;            verstanden=true;&#xa;        &#xa;        }&#xa;        if(!gemacht||!verstanden){        &#xa;        weiter =  JOptionPane.showConfirmDialog(null,&#xa;                                                            &quot;Haben Sie alle Elemente markiert, die dieser Liste zugeordnet werden sollen?&quot;,&#xa;                                                            &quot;Liste (Aufz&#xe4;hlung) erstellen&quot;,&#xa;                                                            JOptionPane.YES_NO_OPTION);&#xa;        gemacht=true;&#xa;        }&#xa;        if(weiter == JOptionPane.YES_OPTION){&#xa;            text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;ul&gt;&quot;, &quot;&lt;/ul&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;        }&#xa;        jTextArea2.setText(text);&#xa;        jEditorPane1.setText(text);    &#xa;        }&#xa;        });;&#xa;        JButton nummeriertButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_nummeriertButton = new ImageIcon(&quot;icons/nummeriert.jpg&quot;);&#xa;        nummeriertButton.setIcon(icon_nummeriertButton);&#xa;        nummeriertButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;&#xa;        String text=jTextArea2.getText();&#xa;        int weiter =0;&#xa;                if(!verstanden&amp;&amp;gemacht){&#xa;        weiter =  JOptionPane.showConfirmDialog(null,&#xa;                                                            &quot;Haben Sie das Prinzip verstanden?&quot;,&#xa;                                                            &quot;Item hinzuf&#xfc;gen&quot;,&#xa;                                                            JOptionPane.YES_NO_OPTION);&#xa;        if(weiter==0)&#xa;            verstanden=true;&#xa;        &#xa;        }&#xa;        if(!gemacht||!verstanden){        &#xa;        weiter =  JOptionPane.showConfirmDialog(null,&#xa;                                                            &quot;Haben Sie alle Elemente markiert, die dieser Liste zugeordnet werden sollen?&quot;,&#xa;                                                            &quot;Liste (Aufz&#xe4;hlung) erstellen&quot;,&#xa;                                                            JOptionPane.YES_NO_OPTION);&#xa;        gemacht=true;&#xa;        }&#xa;        if(weiter == JOptionPane.YES_OPTION){&#xa;            text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;ol&gt;&quot;, &quot;&lt;/ol&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;        }&#xa;        jTextArea2.setText(text);&#xa;        jEditorPane1.setText(text);    &#xa;        }&#xa;        });;&#xa;        JButton ItemButton = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_ItemButton = new ImageIcon(&quot;icons/Item.png&quot;);&#xa;        ItemButton.setIcon(icon_ItemButton);&#xa;        ItemButton.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;        String text=jTextArea2.getText();&#xa;        int  weiter = 0;&#xa;        if(!verstanden&amp;&amp;gemacht){&#xa;        weiter =  JOptionPane.showConfirmDialog(null,&#xa;                                                            &quot;Haben Sie das Prinzip verstanden?&quot;,&#xa;                                                            &quot;Item hinzuf&#xfc;gen&quot;,&#xa;                                                            JOptionPane.YES_NO_OPTION);&#xa;        if(weiter==0)&#xa;            verstanden=true;&#xa;        &#xa;        }&#xa;        if(!gemacht||!verstanden){&#xa;        weiter =  JOptionPane.showConfirmDialog(null,&#xa;                                                            &quot;Haben Sie bereits eine Liste erstellt?&quot;,&#xa;                                                            &quot;Item hinzuf&#xfc;gen&quot;,&#xa;                                                            JOptionPane.YES_NO_OPTION);&#xa;        gemacht = true;&#xa;        }&#xa;        &#xa;        if(weiter == JOptionPane.YES_OPTION){&#xa;            text = einklammern(jTextArea2.getText(), jTextArea1.getText().length(), &quot;&lt;li&gt;&quot;, &quot;&lt;/li&gt;&quot;, jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;        }&#xa;        jTextArea2.setText(text);&#xa;        jEditorPane1.setText(text);    &#xa;        }&#xa;        });;&#xa;        JButton color = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_color = new ImageIcon(&quot;icons/color.png&quot;);&#xa;        color.setIcon(icon_color);&#xa;        color.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;             // TODO add your handling code here:&#xa;        Color ausgewaehlteFarbe = JColorChooser.showDialog(null, &quot;Farbauswahl&quot;, null);&#xa;        // Farbauswahl mithilfe des J.colorChooser&#xa;&#xa;        String Farbe = ausgewaehlteFarbe.toString();//Farbe (Typ Color) in String umwande&#xa;        //String-Builder, um spezielle Vorteile dieses Variablentyps zu nutzen (insert-Einf&#xfc;gen)&#xa;        String hilf4 = &quot;&quot;;//Hilfs-String zum Anlegen einer Klasse (CSS)&#xa;        char[] chars = Farbe.toCharArray();//Farb-STring in Array umwandeln&#xa;        String h1 = &quot;&quot;;&#xa;        int j = 1;//Z&#xe4;hler f&#xfc;r 3 Zahligen RGB-Color Code&#xa;        k++;//Farbklassenz&#xe4;hler erh&#xf6;hen&#xa;&#xa;        for (int i = 17; i &lt; Farbe.length(); i++) {&#xa;            //Schleife zum Auslesen der Farbwerte aus dem RGB-Code&#xa;            if (chars[i] == &apos;,&apos; || chars[i] == &apos;]&apos;) {&#xa;                i = i + 2;&#xa;                hilf4 = hilf4 + h1;&#xa;                if (j &lt;= 2) {&#xa;                    hilf4 = hilf4 + &quot;,&quot;;&#xa;                }&#xa;                j++;&#xa;                h1 = &quot;&quot;;&#xa;            } else {&#xa;                h1 = h1 + chars[i];&#xa;&#xa;            }&#xa;&#xa;        }&#xa;        String text1 = &quot;&lt;a style=&apos;color:rgb(&quot; + hilf4 + &quot;)&apos;&gt;&quot;;//Starttag&#xa;        String text2 = &quot;&lt;/a&gt;&quot;;//Endtag&#xa;        &#xa;        String ausgabe = einklammern(jTextArea2.getText(), jTextArea1.getText().length(),text1 ,text2 , jTextArea1.getSelectionStart(), jTextArea1.getSelectionEnd());&#xa;        &#xa;        jTextArea2.setText(ausgabe);//Einf&#xfc;gen des HTML-Codes in das jTextArea2&#xa;        jEditorPane1.setText(jTextArea2.getText());&#xa;      &#xa;         &#xa;        }&#xa;        });;&#xa;        JButton tabelle = new JButton(&quot;&quot;);&#xa;        ImageIcon icon_tabelle = new ImageIcon(&quot;icons/tabel.png&quot;);&#xa;        tabelle.setIcon(icon_tabelle);&#xa;        tabelle.addActionListener(new ActionListener() {&#xa;            @Override&#xa;            public void actionPerformed(ActionEvent event) {&#xa;             JTextField zeilen = new JTextField();&#xa;&#x9;&#x9;JTextField spalten = new JTextField();&#xa;                Object[] message = {&quot;Anzahl der Zeilen&quot;, zeilen, &#xa;        &#x9;&#x9;&quot;Anzahl der Spalten&quot;, spalten};&#xa; &#xa;                JOptionPane pane = new JOptionPane( message, &#xa;                                                JOptionPane.PLAIN_MESSAGE, &#xa;                                                JOptionPane.OK_CANCEL_OPTION);&#xa;                pane.createDialog(null, &quot;Tabellen&quot;).setVisible(true);&#xa;                int zeilen1= Integer.parseInt(zeilen.getText());&#xa;                int spalten1= Integer.parseInt(spalten.getText());&#xa;                String neu=&quot;&quot;;&#xa;                neu = neu + &quot;&lt;table border=&apos;1&apos;&gt;&quot;;&#xa;                for (int i=1;i&lt;=zeilen1;i++){&#xa;                    neu= neu + &quot;&lt;tr&gt;&quot;;&#xa;                    for(int j=1;j&lt;=spalten1;j++){&#xa;                    if(i==1){neu = neu + &quot;&lt;th&gt;&quot; + &quot;&lt;b&gt;&quot;;}&#xa;                    else{neu=neu+&quot;&lt;td&gt;&quot;;}   &#xa;                    &#xa;                    &#xa;                    &#xa;                    JTextField text = new JTextField();&#xa;                    Object[] message1 = {&quot;Zeile &quot; + i + &quot;\n&quot; +&quot;Spalte &quot; + j, text};&#xa;                    JOptionPane pane1 = new JOptionPane( message1, &#xa;                                                JOptionPane.PLAIN_MESSAGE, &#xa;                                                JOptionPane.OK_CANCEL_OPTION);&#xa;                    pane1.createDialog(null, &quot;Texteingabe&quot;).setVisible(true);&#xa;                    String area=text.getText();&#xa;                    if(i==1){neu = neu + area +&quot;&lt;/b&gt;&quot;+&quot;&lt;/th&gt;&quot;;}&#xa;                    else{neu=neu + area + &quot;&lt;/td&gt;&quot;;}&#xa;                    &#xa;                    //System.out.println(neu);&#xa;                    }&#xa;                    neu = neu + &quot;&lt;/tr&gt;&quot;;&#xa;                    //System.out.println(neu);&#xa;                    }&#xa;                neu = neu + &quot;&lt;/table&gt;&quot;;&#xa;                String Text=einfueg(jTextArea2.getText(), jTextArea1.getText().length(), neu, jTextArea1.getCaretPosition());&#xa;                jTextArea2.setText(Text);&#xa;                jEditorPane1.setText(Text);&#xa;&#xa;        }&#xa;        });;&#xa;        jToolBar1.add(Neu);&#xa;        jToolBar1.add(&#xd6;ffnenButton);&#xa;        jToolBar1.add(SpeichernButton);&#xa;        jToolBar1.add(BrowserButton);&#xa;        jToolBar1.add(R&#xfc;ckg&#xe4;ngigButton);&#xa;        jToolBar1.add(ResetButton);&#xa;        jToolBar1.add(WiederholenButton);&#xa;        jToolBar1.add(Ueberschrift);&#xa;        jToolBar1.add(FontButton);&#xa;        jToolBar1.add(SizeButton);&#xa;        jToolBar1.add(FettButton);&#xa;        jToolBar1.add(KursivButton);&#xa;        jToolBar1.add(UnterstrichButton);&#xa;        jToolBar1.add(hochgestellt);&#xa;        jToolBar1.add(nichtnummeriertButton);&#xa;        jToolBar1.add(ItemButton);&#xa;        jToolBar1.add(nummeriertButton);&#xa;        jToolBar1.add(color);&#xa;        jToolBar1.add(tabelle);&#xa;        jToolBar1.add(ExitButton);"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JMenuBar" name="menuBar">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="menuBar" noResource="true"/>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="fileMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="fileMenu.text"/>
+            <Property name="name" type="java.lang.String" value="fileMenu" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="org.jdesktop.application.Application" id="quit" methodName="quit"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="exitMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="exitMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem1.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem1" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Shift+Ctrl+S"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem2.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem2" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="helpMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="helpMenu.text"/>
+            <Property name="name" type="java.lang.String" value="helpMenu" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="aboutMenuItem">
+              <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="test_htmleditor.Test_HTMLEditorView" id="showAboutBox" methodName="showAboutBox"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="aboutMenuItem.text"/>
+                <Property name="name" type="java.lang.String" value="aboutMenuItem" noResource="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+              </AuxValues>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu1">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jMenu1.text"/>
+            <Property name="name" type="java.lang.String" value="jMenu1" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem3.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem3" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu2">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="jMenu2.text"/>
+            <Property name="name" type="java.lang.String" value="jMenu2" noResource="true"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem8.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem8" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem8ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem9">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem9.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem9" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem10">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem10.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem10" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem10ActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="jMenuItem7.text"/>
+                <Property name="name" type="java.lang.String" value="jMenuItem7" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="statusPanel">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="statusPanel" noResource="true"/>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="statusMessageLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="statusPanelSeparator" alignment="0" pref="885" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="progressBar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="statusAnimationLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Component id="statusPanelSeparator" min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="statusMessageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="statusAnimationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="progressBar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JSeparator" name="statusPanelSeparator">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="statusPanelSeparator" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="statusMessageLabel">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="statusMessageLabel" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="statusAnimationLabel">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="2"/>
+            <Property name="name" type="java.lang.String" value="statusAnimationLabel" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JProgressBar" name="progressBar">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="progressBar" noResource="true"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="component" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="mainPanel"/>
+    </Property>
+    <Property name="menuBar" type="javax.swing.JMenuBar" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="menuBar"/>
+    </Property>
+    <Property name="statusBar" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="statusPanel"/>
+    </Property>
+  </Properties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,3,0,0,0,4,0"/>
+  </AuxValues>
+</Form>
